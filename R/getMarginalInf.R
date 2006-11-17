@@ -165,7 +165,7 @@ function(S.matrix,S.observed,alpha)
                     pvalue = c(pvalue,0);
                     pvalue.se = c(pvalue.se,0);
 
-                    cat("WARNING: ","'",names(S.observed)[i],"'"," observed value of the sufficient statistic was not sampled\n",sep="");
+                    warning(paste("'",names(S.observed)[i],"'"," observed value of the sufficient statistic was not sampled",sep=""), call.=FALSE);
                 }
             }
             else
@@ -178,11 +178,11 @@ function(S.matrix,S.observed,alpha)
 
                 if(nrow(distTable) <= 1)
                 {
-                    cat("WARNING: ","'",names(S.observed)[i],"'", " conditional distribution of the sufficient statistic was found to be degenerate\n",sep="");
+                    warning(paste("'",names(S.observed)[i],"'"," conditional distribution of the sufficient statistic was found to be degenerate",sep=""), call. = FALSE);
                 }
                 else
                 {
-                    cat("WARNING: ","'",names(S.observed)[i],"'", " extracted sample is too small for inference (less than 1000)\n",sep="");
+                    warning(paste("'",names(S.observed)[i],"'"," extracted sample is too small for inference (less than 1000)",sep=""), call. = FALSE);
                 }
             }
         }
@@ -194,7 +194,7 @@ function(S.matrix,S.observed,alpha)
             pvalue = c(pvalue,NA);
             pvalue.se = c(pvalue.se,NA);
 
-            cat("WARNING: ","'",names(S.observed)[i],"'", "conditional distribution of the sufficient statistic was found to be degenerate\n",sep="");
+            warning(paste("'",names(S.observed)[i],"'"," conditional distribution of the sufficient statistic was found to be degenerate",sep=""), call. = FALSE);
         }
     }
     

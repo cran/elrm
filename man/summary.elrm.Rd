@@ -1,11 +1,10 @@
 \name{summary.elrm}
 \alias{summary.elrm}
-\alias{summary}
 \title{Summarize an elrm Object}
 \description{Summary method for class \code{elrm} that formats and prints out the results of an \code{elrm} object.}
 \usage{\method{summary}{elrm}(object, ...)}
 \arguments{
-  \item{object}{an object of class \code{elrm}, resulting from a call to \code{elrm()} or a previous call to \code{update()}.}
+  \item{object}{an object of class \code{elrm}, resulting from a call to \command{elrm()} or a previous call to \command{update()}.}
   \item{\dots}{additional arguments to the summary function (currently unused).}
 }
 \details{The following results are formatted and printed to the screen: the matched call, coefficient estimates and confidence intervals for each model term of interest, estimated p-value for jointly testing that the parameters of interest are simultaneously equal to zero, full conditional p-values from separately testing each parameter equal to zero, length of the Markov chain that inference was based on, and the Monte Carlo standard error of each reported p-value.}
@@ -45,25 +44,26 @@ summary(drug.elrm);
 \dontrun{
 # Urinary tract dataset example with dia as the variable of interst
 data(utiDat);
-uti.elrm=elrm(uti/n~age+oc+vic+vicl+vis+dia,interest=~dia,r=2,iter=20000,burnIn=500,dataset=utiDat); 
+uti.elrm=elrm(uti/n~age+current+dia+oc+pastyr+vi+vic+vicl+vis,interest=~dia,r=4,iter=30000,burnIn=1000,dataset=utiDat);
 
 # Summarize the results:
 summary(uti.elrm);
 
 # Call:
 # [[1]]
-# elrm(formula = uti/n ~ age + oc + vic + vicl + vis + dia, interest = ~dia, 
-#     r = 2, iter = 20000, dataset = utiDat, burnIn = 500)
+# elrm(formula = uti/n ~ age + current + dia + oc + pastyr + vi + 
+#     vic + vicl + vis, interest = ~dia, r = 4, iter = 30000, dataset = uti, 
+#     burnIn = 1000)
 
 
 # Results:
 #     estimate p-value p-value_se mc_size
-# dia   2.2449 0.01544    0.00157   19500
+# dia  2.07146 0.03286    0.00802   29000
 
 # 95\% Confidence Intervals for Parameters
 
-#        lower upper
-# dia 0.254873   Inf
+#           lower upper
+# dia -0.06231932   Inf
 }
 }
 \keyword{methods}

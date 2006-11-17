@@ -6,7 +6,7 @@
 elrm(formula, interest, r = 4, iter = 1000, dataset, burnIn = 0, alpha = 0.05)
 }
 \arguments{
-  \item{formula}{a formula object that contains a symbolic description of the logistic regression model of interest in the usual R formula format. One exception is that the binomial response should be specified as \code{success/trials}, where \code{success} gives the number of successes and \code{trials} gives the number of binomial trials for each row of \var{dataset}.}
+  \item{formula}{a formula object that contains a symbolic description of the logistic regression model of interest in the usual R formula format. One exception is that the binomial response should be specified as \var{success/trials}, where \var{success} gives the number of successes and \var{trials} gives the number of binomial trials for each row of \var{dataset}.}
   \item{interest}{a formula object that contains a symbolic description of the model terms for which exact conditional inference is of interest.}
   \item{r}{a parameter of the MCMC algorithm that influences how the Markov chain moves around the state space. Small values of \var{r} cause the chain to take small, relatively frequent steps through the state space; larger values cause larger, less frequent steps. The value of \var{r} must be an even integer less than or equal to the length of the response vector. Typical values are 4, 6 or 8; default=4.}
   \item{iter}{an integer representing the number of Markov chain iterations to make (must be larger than or equal to 1000); default=1000.}
@@ -15,7 +15,7 @@ elrm(formula, interest, r = 4, iter = 1000, dataset, burnIn = 0, alpha = 0.05)
   \item{alpha}{determines the level used for confidence intervals; default=0.05.}
 }
 \details{
-The function \code{summary()} (i.e., \code{\link{summary.elrm}}) can be used to obtain or print a summary of the results. \cr \cr 
+The function \command{summary()} (i.e., \code{\link{summary.elrm}}) can be used to obtain or print a summary of the results. \cr \cr 
 Each estimated exact p-value is based on the conditional probabilities test. \cr \cr 
 The Monte Carlo standard error of each p-value is computed by the batch-means method (Geyer C.J. 1992). \cr \cr 
 Inference on each parameter must be based on a Markov chain of at least 1000 iterations, otherwise \code{NA} is returned. \cr \cr 
@@ -29,12 +29,13 @@ If the observed value of the sufficient statistic for a parameter is either the 
   \item{mc.size}{a vector containing the lengths of the extracted Markov chains used in testing each parameter. The length of the Markov chain used for the joint test (i.e., \var{iter}) is also included as the first element.}
   \item{obs.suff.stat}{a vector containing the observed value of the sufficient statistic for each parameter of interest.}
   \item{distribution}{a list containing distribution tables for the sampled values of the sufficient statistic of the parameters of interest conditional on all the rest.}
-  \item{call.history}{a list composed of the matched call and the history of calls to \code{update()}.}
-  \item{dataset}{the data.frame object that was passed to \code{elrm()} as an argument.}
+  \item{call.history}{a list composed of the matched call and the history of calls to \command{update()}.}
+  \item{dataset}{the data.frame object that was passed to \command{elrm()} as an argument.}
   \item{last}{the last response vector sampled by the Markov chain.}
-  \item{r}{the value of \var{r} passed to \code{elrm()} as an argument.}
+  \item{r}{the value of \var{r} passed to \command{elrm()} as an argument.}
   \item{ci.level}{the level used when constructing the confidence intervals for the parameters of interest. The level is calculated as (1-\var{alpha})*100\%.}
 }
+\section{Warning}{The labels of the terms in the in the \var{interest} model should match those found in the \var{formula} model. Thus, the \var{term.labels} attribute of \code{terms.formula(\var{interest)}} should match those found in \code{terms.formula(\var{formula})}. Please see the Examples section for more details.}
 \references{
 Forster J.J., McDonald J.W. and Smith P.W.F. Markov Chain Monte Carlo Exact Inference for Binomial and Multinomial Logistic Regression Models. Statistics and Computing, 13:169-177, 2003. 
 
@@ -50,9 +51,31 @@ data(drugDat);
 drug.elrm=elrm(formula=recovered/n~sex+treatment,interest=~sex+treatment,r=4,iter=100000,burnIn=1000,dataset=drugDat);
 
 \dontrun{
+# crash dataset example where the terms of interest are age and the interaction of age and velocity.
+data(crashDat);
+# The following call produces the error message shown below.
+crash.elrm = elrm(formula=y/n~vel+age+acl+age:vel, interest=~age+age:vel, r=4, iter=5000, dataset=crash, burnIn=100);
+
+# Error in getDesignMatrix(formula, interest, dataset = dataset) : 
+#        the 'term.labels' attribute of 'terms.formula(interest)' must match those found in 'terms.formula(formula)'
+
+# The error occurs, because the variables within the interaction term in a formula are re-ordered by the ordering in which the variables occur.
+# Thus, the interaction between age and velocity is labeled as vel:age in the 'formula' model and as age:vel in the 'interest' model.
+
+attr(terms.formula(y/n~vel+age+acl+age:vel),"term.labels");
+# [1] "vel"     "age"     "acl"     "vel:age"
+
+attr(terms.formula(~age+age:vel),"term.labels");
+# [1] "age"     "age:vel"
+
+# To get around this problem, place age before vel in the 'formula' model.
+crash.elrm = elrm(formula=y/n~age+vel+acl+age:vel, interest=~age+age:vel, r=4, iter=5000, dataset=crash, burnIn=100);
+}
+
+\dontrun{
 # Urinary tract dataset example with dia as the variable of interest
 data(utiDat); 
-uti.elrm=elrm(uti/n~age+oc+vic+vicl+vis+dia,interest=~dia,r=2,iter=20000,burnIn=500,dataset=utiDat);}
+uti.elrm=elrm(uti/n~age+current+dia+oc+pastyr+vi+vic+vicl+vis,interest=~dia,r=4,iter=30000,burnIn=1000,dataset=utiDat);}
 
 \dontrun{
 # Titanic dataset example where the variable of interest, class, is coded as a factor

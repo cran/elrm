@@ -51,7 +51,6 @@ extern List<List<double>*> readDataFile(char* filename);
 
 extern double* getWeightings(Array2D<int> array, int n);
 
-// not used
 extern List<int> atoiList(char* char_array);
 
 extern int rand_int(int n);

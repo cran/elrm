@@ -1,11 +1,10 @@
 \name{update.elrm}
 \alias{update.elrm}
-\alias{update}
 \title{Update Method for Objects of Class elrm.}
-\description{An update method for objects created by \code{elrm()}. Extends the Markov chain of an \code{elrm} object by a specified number of iterations.}
+\description{An update method for objects created by \command{elrm()}. Extends the Markov chain of an \code{elrm} object by a specified number of iterations.}
 \usage{\method{update}{elrm}(object, iter, burnIn = 0, alpha = 0.05, ...)}
 \arguments{
-  \item{object}{an object of class \code{elrm}, resulting from a call to \code{elrm()} or a previous call to \code{update()}.}
+  \item{object}{an object of class \code{elrm}, resulting from a call to \command{elrm()} or a previous call to \command{update()}.}
   \item{iter}{an integer representing the number of Markov chain iterations to make.}
   \item{burnIn}{the burn-in period to use when conducting inference. Values of the Markov chain in the burn-in period are discarded; default=0.}
   \item{alpha}{determines the level used for confidence intervals; default=0.05.}

@@ -7,7 +7,7 @@ function(vals,bs="sqroot",g=id,warn=FALSE)
     {
         if(warn)
         {
-            cat("WARNING: vals must be a vector");
+            warning("vals must be a vector", call. = TRUE);
         }
     }
     
@@ -15,7 +15,7 @@ function(vals,bs="sqroot",g=id,warn=FALSE)
     {
         if (warn) # if warning
         {
-            cat("WARNING: too few samples (less than 1000)\n");
+            warning("too few samples (less than 1000)", call. = TRUE);
         }
         if (N<10)
         {

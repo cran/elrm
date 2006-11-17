@@ -1,8 +1,6 @@
 `getDesignMatrix` <-
 function(formula, interest, dataset)
-{
-    ## options(contrasts=c("contr.treatment","contr.poly"));
-
+{   
     yCol = as.character(as.list(as.formula(formula))[[2]])[2];
     mCol = as.character(as.list(as.formula(formula))[[2]])[3];
 
@@ -43,7 +41,7 @@ function(formula, interest, dataset)
     
     if(-1 %in% match.names)
     {
-        stop("'interest' must be a formula composed of the following terms: ", list(design.names));
+        stop("the 'term.labels' attribute of 'terms.formula(interest)' must match those found in 'terms.formula(formula)'");
     }
 
     design.frame = as.data.frame(design.matrix);

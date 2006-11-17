@@ -20,7 +20,7 @@ function(S.matrix, S.observed)
         pvalue = 0;
         pvalue.se = 0;
         
-        cat("WARNING: ","'","joint","'"," observed value of the sufficient statistics was not sampled\n",sep="");
+        warning("observed value of the sufficient statistics for 'joint' was not sampled", call. = FALSE);
     }
     else
     {
@@ -54,7 +54,7 @@ function(S.matrix, S.observed)
         }
         else
         {   
-            cat("WARNING: conditional distribution of the joint sufficient statistics was found to be degenerate\n");
+            warning("conditional distribution of the joint sufficient statistics was found to be degenerate", call. = FALSE);
                     
             pvalue.se = NA;
         }

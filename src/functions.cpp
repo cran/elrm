@@ -353,8 +353,6 @@ Array2D<int> findRHelper2(int r, int n)
 	{
 		v->data[i] = new int[n];
 
-		// list.get(i)->print();
-
 		int sum = 0;
 
 		for(j = 0; j < n; j++)
@@ -488,28 +486,13 @@ Array2D<int> findR(int r, int n)
 
 				found = true;
 			}
-
-//			std::cout << v.data[i][j] << " ";
 		}
 
 		if(!found)
 		{
 			zeros[i] = v.n;
 		}
-
-//		std::cout << endl;
 	}
-
-	/*
-
-	for(j=0; j < v.m; j++)
-	{
-		std::cout << zeros[j] << " ";
-	}
-
-	std::cout << endl;
-
-	*/
 	
 	List<int*> vList;
 	

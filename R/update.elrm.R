@@ -30,8 +30,8 @@ function(object,iter,burnIn=0,alpha=0.05,...)
         stop(msg);
     }
     
-    out.filename = "elrmout.txt";
-    tempdata.filename = "elrmtempdata.txt";
+    out.filename = paste("elrmout",round(runif(1,0,10000),0),".txt",sep="");
+    tempdata.filename = paste("elrmtempdata",round(runif(1,0,10000),0),".txt",sep="");
     write.table(design.matrix,tempdata.filename,quote=FALSE,row.names=FALSE,col.names=FALSE);
     
     Z.matrix = matrix(nrow = nrow(design.matrix), ncol = length(zCols));
@@ -40,8 +40,7 @@ function(object,iter,burnIn=0,alpha=0.05,...)
 
     S.matrix = NULL;
     
-    cat("Generating the Markov chain ...");
-    cat('\n');
+    message("Generating the Markov chain ...");
     
     t1 = format(Sys.time(),"");
 
@@ -90,11 +89,9 @@ function(object,iter,burnIn=0,alpha=0.05,...)
     t2 = format(Sys.time(),"");
     
     dif1 = difftime(t2,t1,units="auto");
-    cat(paste("Generation of the Markov Chain required",  round(dif1,4), attr(dif1,"units")));
-    cat('\n');
+    message(paste("Generation of the Markov Chain required",  round(dif1,4), attr(dif1,"units")));
     
-    cat("Conducting inference ...");
-    cat('\n');
+    message("Conducting inference ...");
     
     t3 = format(Sys.time(),"");
     
@@ -115,8 +112,7 @@ function(object,iter,burnIn=0,alpha=0.05,...)
         t4 = format(Sys.time(),"");
         
         dif2 = difftime(t4,t3,units="auto");
-        cat(paste("Inference required", round(dif2,4), attr(dif2,"units")));
-        cat('\n');
+        message(paste("Inference required", round(dif2,4), attr(dif2,"units")));
         
         coeffs = as.vector(c(NA,marginal$estimate),mode='numeric');
         names(coeffs) = c("joint",names(marginal$estimate));
@@ -149,8 +145,7 @@ function(object,iter,burnIn=0,alpha=0.05,...)
         t4 = format(Sys.time(),"");
         
         dif2 = difftime(t4,t3,units="auto");
-        cat(paste("Inference required", round(dif2,4), attr(dif2,"units")));
-        cat('\n');
+        message(paste("Inference required", round(dif2,4), attr(dif2,"units")));
 
         S.matrix = data.frame(rbind(S.begin,S.matrix));
         colnames(S.matrix) = names(design.matrix)[zCols];
