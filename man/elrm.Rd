@@ -1,6 +1,6 @@
 \name{elrm}
 \alias{elrm}
-\title{Exact Logistic Regression via MCMC}
+\title{elrm: exact-like inference in logistic regression models}
 \description{\code{elrm} implements a modification of the Markov Chain Monte Carlo algorithm proposed by Forster et al. (2003) to approximate exact conditional inference for logistic regression models. The modifications can handle larger datasets than the original algorithm (Zamar 2006). Exact conditional inference is based on the distribution of the sufficient statistics for the parameters of interest given the sufficient statistics for the remaining nuisance parameters. Using model formula notation, users specify a logistic model and model terms of interest for exact inference.}
 \usage{
 elrm(formula, interest, r = 4, iter = 1000, dataset, burnIn = 0, alpha = 0.05)
@@ -19,7 +19,10 @@ The function \command{summary()} (i.e., \code{\link{summary.elrm}}) can be used 
 Each estimated exact p-value is based on the conditional probabilities test. \cr \cr 
 The Monte Carlo standard error of each p-value is computed by the batch-means method (Geyer C.J. 1992). \cr \cr 
 Inference on each parameter must be based on a Markov chain of at least 1000 iterations, otherwise \code{NA} is returned. \cr \cr 
-If the observed value of the sufficient statistic for a parameter is either the maximum or the minimum value sampled, the MUE of the parameter is given instead of the CMLE. In such cases, the resulting confidence interval is open-ended on one side.}
+If the observed value of the sufficient statistic for a parameter is either the maximum or the minimum value sampled, the MUE of the parameter is given instead of the CMLE. In such cases, the resulting confidence interval is open-ended on one side. \cr \cr
+
+Apart from the documentation files accompanying this package, the \pkg{elrm} package vignette may be downloaded from the \pkg{elrm} package homepage on the SFU Statistical Genetics Working Group website (\url{http://stat-db.stat.sfu.ca:8080/statgen/research/elrm}). The vignette is also distributed with the code.
+}
 \value{
   \item{coeffs}{a vector containing the parameter estimates.}
   \item{coeffs.ci}{a list containing (1-\var{alpha})*100\% confidence intervals for each parameter of interest.}

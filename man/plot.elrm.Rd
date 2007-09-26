@@ -5,7 +5,7 @@
 \usage{\method{plot}{elrm}(x, p = 1, breaks = "Sturges", ask=FALSE, ...)}
 \arguments{
 \item{x}{an object of class \code{elrm}, resulting from a call to \command{elrm()} or a previous call to \command{update()}.}
-\item{p}{the sampling fraction of points to be plotted. A random sample consisting of p*100\% of all the observations in the Markov chain is plotted; default=1.}
+\item{p}{the sampling fraction of points to be plotted. A random sample consisting of \var{p}*100\% of all the observations in the Markov chain is plotted; default=1.}
 \item{breaks}{a vector giving the number of cells to use for the histogram of each sufficient statistic of interest or a single number giving the number of cells for each histogram or the character string naming an algorithm to compute the number of cells.}
 \item{ask}{the graphics parameter \var{ask}: see \code{\link{par}} for details. If set to TRUE will ask between plots corresponding to each sufficient statistic; default=FALSE.}
 \item{\dots}{additional arguments to the plot function (currently unused).}

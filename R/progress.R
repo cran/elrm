@@ -1,5 +1,3 @@
-## This function was written by Philippe Grosjean for the R package svMisc
-
 `progress` <-
 function (value, max.value = NULL) 
 {

@@ -1,6 +1,8 @@
 `getDesignMatrix` <-
 function(formula, interest, dataset)
-{   
+{
+    ## options(contrasts=c("contr.treatment","contr.poly"));
+
     yCol = as.character(as.list(as.formula(formula))[[2]])[2];
     mCol = as.character(as.list(as.formula(formula))[[2]])[3];
 
