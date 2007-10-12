@@ -45,6 +45,8 @@ Forster J.J., McDonald J.W. and Smith P.W.F. Markov Chain Monte Carlo Exact Infe
 Geyer C.J. Practical Markov chain Monte Carlo. Statistical Science, 7:473-511, 1992.
 
 Zamar David. Monte Carlo Markov Chain Exact Inference for Binomial Regression Models. Master's thesis, Statistics and Actuarial Sciences, Simon Fraser University, 2006.
+
+Zamar D, McNeney B and Graham J. elrm: Software Implementing Exact-like Inference for Logistic Regression Models. Journal of Statistical Software 2007, 21(3).
 }
 \author{David Zamar, Jinko Graham, Brad McNeney}
 \seealso{\code{\link{update.elrm}}, \code{\link{summary.elrm}}, \code{\link{plot.elrm}}.}

@@ -24,27 +24,16 @@
 %% need no \usepackage{Sweave.sty}
 %% end of declarations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 \documentclass[article, shortnames]{jss}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{verbatim}
-\usepackage{epsfig}
+\usepackage{amsmath,amssymb,thumbpdf}
 
-\setcounter{MaxMatrixCols}{10}
-%MARK DEC12JGBM
-%TCIDATA{OutputFilter=Latex.dll}
-%TCIDATA{Version=4.10.0.2345}
-%TCIDATA{LastRevised=Wednesday, November 08, 2006 11:27:45}
-%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
-
-\author{David Zamar \\
-%EndAName
-Simon Fraser University \And Brad McNeney \\
-Simon Fraser University \And Jinko Graham \\
-Simon Fraser University}
-\title{\pkg{elrm}: Software Implementing Exact-Like Inference for Logistic Regression Models}
+\author{David Zamar \\Simon Fraser University
+  \And Brad McNeney \\Simon Fraser University
+  \And Jinko Graham \\Simon Fraser University}
+\Plainauthor{David Zamar, Brad McNeney, Jinko Graham}
+\title{\pkg{elrm}: Software Implementing Exact-like Inference for Logistic Regression Models}
+\Plaintitle{elrm: Software Implementing Exact-like Inference for Logistic Regression Models}
+\Shorttitle{\pkg{elrm}: Exact-like Inference for Logistic Regression Models}
 
 \Abstract{Exact inference is based on the conditional distribution
 of the sufficient statistics for the parameters of interest given
@@ -53,31 +42,32 @@ inference for logistic regression can be problematic when data
 sets are large and the support of the conditional distribution
 cannot be represented in memory. Additionally, these methods are
 not widely implemented except in commercial software packages such
-as \pkg{LogXact} and \pkg{SAS}. Therefore, we have developed
+as \pkg{LogXact} and \proglang{SAS}. Therefore, we have developed
 \pkg{elrm}, software for \proglang{R} implementing (approximate)
 exact inference for binomial regression models from large data
 sets. We provide a description of the underlying statistical
 methods and illustrate the use of \pkg{elrm} with examples. We
 also evaluate \pkg{elrm} by comparing results with those obtained
-using other methods.} \Keywords{conditional inference, exact test,
-logistic regression, Markov chain Monte Carlo, Metropolis-Hastings
-algorithm} \Plainkeywords{keywords, comma-separated, not
-capitalized, Java} \Address{
-\begin{center}
-\begin{tabular}{l}
-David Zamar, Brad McNeney, Jinko Graham \\
-Department of Statistics and Actuarial Science \\
-Simon Fraser University \\
-Burnaby BC V5A 1S6, Canada \\
-E-mail:  \email{dzamar@sfu.ca}, \email{mcneney@stat.sfu.ca}, \email{jgraham@stat.sfu.ca} \\
-URL: \url{http://www.sfu.ca/~dzamar},
-\url{http://www.stat.sfu.ca/~mcneney},
-\\
-\url{http://www.stat.sfu.ca/~jgraham}%
-\end{tabular}
-\end{center}
+using other methods.}
+
+\Keywords{conditional inference, exact test, logistic regression,
+  Markov chain Monte Carlo, Metropolis-Hastings algorithm}
+
+\Address{
+  David Zamar, Brad McNeney, Jinko Graham \\
+  Department of Statistics and Actuarial Science \\
+  Simon Fraser University \\
+  Burnaby BC V5A 1S6, Canada \\
+  E-mail:  \email{dzamar@sfu.ca}, \email{mcneney@stat.sfu.ca}, \email{jgraham@stat.sfu.ca} \\
+  URL: \url{http://www.sfu.ca/~dzamar}, \url{http://www.stat.sfu.ca/~mcneney}, \url{http://www.stat.sfu.ca/~jgraham}
 }
-%\input{tcilatex}
+
+\Volume{21}
+\Issue{3}
+\Month{October}
+\Year{2007}
+\Submitdate{2007-01-15}
+\Acceptdate{2007-09-03}
 
 \begin{document}
 
@@ -100,18 +90,19 @@ exact logistic regression have difficulty handling large data sets
 with conditional distributions whose support is too large to be
 represented in memory. We extend an existing algorithm for
 (approximate) exact inference to accommodate large data sets and
-implement this extension in an \proglang{R} package called
+implement this extension in an \proglang{R} \citep{R}
+package called
 \pkg{elrm}. We begin this paper with a short review of exact
-logistic regression in Section \ref{Exact logistic regression}. In
-Section \ref{Related work and extensions} we discuss related work
-and our extension. Section \ref{Inference provided by elrm}
+logistic regression in Section~\ref{elr}. In
+Section~\ref{rwae}, we discuss related work
+and our extension. Section~\ref{ipbe}
 describes the inference provided by \pkg{elrm}, our implementation
-of this extension. In Section \ref{Using elrm and its features} we
-illustrate the usage of \pkg{elrm} and its features. In Section
-\ref{Evaluation} we evaluate our package and present the results.
-Section \ref{Summary} provides a summary of our work.
+of this extension. In Section~\ref{ueaif} we
+illustrate the usage of \pkg{elrm} and its features.
+In Section~\ref{Evaluation}, we evaluate our package and present the results.
+Section~\ref{Summary} provides a summary of our work.
 
-\section{Exact Logistic Regression} \label{Exact logistic regression}
+\section{Exact logistic regression} \label{elr}
 
 \citet{Hirji:2006} provides a useful introduction to
 exact inference and to approximate exact inference.
@@ -125,17 +116,17 @@ model is
 \begin{equation*}
 \begin{array}{l}
 logit\left(
-p_{i}\right) =\mathbf{w}_{i}^{T}\mathbf{\beta +z}_{i}^{T}\mathbf{\gamma }%
+p_{i}\right) =\mathbf{w}_{i}^\top\mathbf{\beta +z}_{i}^\top\mathbf{\gamma }%
 ,\quad i=1,\ldots ,n\text{,}%
 \end{array}%
 \end{equation*}%
 where $\mathbf{\beta }$\textbf{\ }is a vector of nuisance parameters
 corresponding to the first $p$ explanatory variables
-$\mathbf{w}_i=\left( w_{i1,}w_{i2},\ldots ,w_{ip}\right) ^{T}$
+$\mathbf{w}_i=\left( w_{i1,}w_{i2},\ldots ,w_{ip}\right)^\top$
 for the $i^{th}$ response,
 $\mathbf{\gamma }$ is a vector of parameters corresponding to the
 remaining $q$ explanatory variables $\mathbf{z}_i=\left(
-z_{i1,}z_{i2},\ldots ,z_{iq}\right) ^{T}$ and $n$ is the number of
+z_{i1,}z_{i2},\ldots ,z_{iq}\right)^\top$ and $n$ is the number of
 responses. We are not
 interested in making inferences about $\mathbf{\beta }$; however,
 including the $\mathbf{w}_{i}$'s in the model reduces noise and
@@ -144,15 +135,15 @@ $\mathbf{\gamma }$, of interest.
 Ultimately, we are interested in
 studying the relationship between $p_i$ and $\mathbf{z}_i$.
 
-Let $\mathbf{Y}=(Y_1,\ldots,Y_n)^T$,
+Let $\mathbf{Y}=(Y_1,\ldots,Y_n)^\top$,
 $\mathbf{W}$ be an $n\times p$ matrix whose $i$th row is
-$\mathbf{w}^T_i$ and
+$\mathbf{w}^\top_i$ and
 $\mathbf{Z}$ be an $n\times q$ matrix whose $i$th row is
-$\mathbf{z}^T_i$.
+$\mathbf{z}^\top_i$.
 Exact conditional inference is based on the distribution of the sufficient
-statistic $\mathbf{T}=\mathbf{Z}^T \mathbf{Y}$
+statistic $\mathbf{T}=\mathbf{Z}^\top \mathbf{Y}$
 for the parameters of interest, $\mathbf{\gamma }$,
-given the sufficient statistic $\mathbf{S}=\mathbf{W}^{T}\mathbf{Y}$
+given the sufficient statistic $\mathbf{S}=\mathbf{W}^\top\mathbf{Y}$
 for the nuisance parameters $\mathbf{\beta }$.
 Equivalently, inference is based on the
 conditional distribution of $\mathbf{Y}$ given\textbf{\
@@ -164,7 +155,7 @@ f\left( \mathbf{y}|\mathbf{S=s}\right) \varpropto \left[ \prod%
 m_{i} \\
 y_{i}%
 \end{pmatrix}%
-\right] \exp \left\{ \mathbf{\gamma }^{T}\mathbf{Z}^{T}\mathbf{y}\right\}
+\right] \exp \left\{ \mathbf{\gamma }^\top\mathbf{Z}^\top\mathbf{y}\right\}
 \text{.}\hspace{1cm}  \label{y given s}
 \end{equation}
 This distribution does not
@@ -182,13 +173,13 @@ proportionality constant in equation (\ref{y given s})
 can be problematic for large data sets, because it
 requires enumeration of the potentially large support of
 $f\left( \mathbf{y}|\mathbf{S=s}\right)$.
-Fortunately, Markov Chain Monte Carlo (MCMC)
+Fortunately, Markov chain Monte Carlo (MCMC)
 approaches require knowledge of $f\left( \mathbf{y}|\mathbf{S=s}\right)$
 up to a proportionality constant only.
 
-\section{Related Work and Extensions} \label{Related work and extensions}
+\section{Related work and extensions} \label{rwae}
 
-\subsection{Currently Available Methods}
+\subsection{Currently available methods}
 
 \cite{Oster:2002} and \cite{Oster:2003} review and compare exact
 methods implemented in various software packages. For logistic
@@ -197,7 +188,7 @@ distribution of the sufficient statistics for the regression
 parameters of interest given the sufficient statistics for the
 remaining nuisance parameters. A recursive algorithm for
 generating the required conditional distribution is implemented in
-the commercial software package \pkg{LogXact} \citep{Cytel:1999}.
+the commercial software package \pkg{LogXact} \citep{LogXact}.
 However, the algorithm can only handle problems with modest
 samples sizes and numbers of covariates \citep{Corcoran:2001}. To
 increase the size of problem that can be analyzed,
@@ -228,7 +219,7 @@ the network is not possible and the Gibbs sampler proves
 unreliable, \citet{Forster:2003} propose an alternative method
 that makes use of the Metropolis-Hastings algorithm.
 
-\subsection{The Forster et al. (2003) Algorithm}
+\subsection[The Forster et al. (2003) algorithm]{The Forster et al.\ (2003) algorithm}
 
 The Metropolis-Hastings algorithm proposed by \citet{Forster:2003}
 generates proposals
@@ -245,7 +236,7 @@ $$
 \mathbf{V=}\left\{ \mathbf{v:}\text{ }\sum_{i=1}^{n}\left\vert
 v_{i}\right\vert \leq r\text{ \textrm{and }}v_{i}\text{
 \textrm{coprime for} }i=1,...,n\text{ and
-}\mathbf{W}^{T}\mathbf{v=0}\right\}
+}\mathbf{W}^\top\mathbf{v=0}\right\}
 $$
 % \label{Forster set V}
 %\end{equation}
@@ -262,7 +253,7 @@ $$
 % \label{initV}
 %\end{equation}
 is enumerated for a given $r$ chosen so that enumeration is feasible.
-Only those $\mathbf{v}$ for which $\mathbf{W}^T \mathbf{v} = 0$ are kept.
+Only those $\mathbf{v}$ for which $\mathbf{W}^\top \mathbf{v} = 0$ are kept.
 Usually, the vector of ones is in the column space of the design
 matrix $\mathbf{W}$ because a constant term is included in the linear
 model. Hence $\sum\limits_{i=1}^{n}v_{i}=0$ and so
@@ -274,7 +265,7 @@ using
 %\begin{equation}
 $$
 q\left( d|\mathbf{v},\mathbf{y}\right) \varpropto \exp \left\{ \mathbf{%
-\gamma }^{T}\mathbf{Z}^{T}\left( \mathbf{y+}d\mathbf{v}\right) \right\}
+\gamma }^\top\mathbf{Z}^\top\left( \mathbf{y+}d\mathbf{v}\right) \right\}
 \prod\limits_{i=1}^{n}%
 \begin{pmatrix}
 m_{i} \\
@@ -289,8 +280,8 @@ where the support of $q\left( d|\mathbf{v},\mathbf{y}\right) $ is given by
 0\leq y_{i}+dv_{i}\leq m_{i}  \label{constraint on y +dv}
 \end{equation}%
 for all $i$. Since $\mathbf{y}^{\ast }=\mathbf{y}+d\mathbf{v}$, where
-$\mathbf{W}^{T}\mathbf{v}=\mathbf{0}$, the sufficient statistics
-$\mathbf{W}^T\mathbf{y}^\ast$ for the
+$\mathbf{W}^\top\mathbf{v}=\mathbf{0}$, the sufficient statistics
+$\mathbf{W}^\top\mathbf{y}^\ast$ for the
 nuisance parameters are maintained.
 In order to obtain the required stationary
 distribution, the algorithm accepts the
@@ -310,7 +301,7 @@ values of $r$ correspond to more transitions to new states, but the
 Markov chain may remain trapped in a local neighborhood
 \citep{Forster:2003,Zamar:2006}.
 
-\subsection{The elrm Algorithm}
+\subsection[The elrm algorithm]{The \pkg{elrm} algorithm}
 
 The \citet{Forster:2003} algorithm proposes uniform sampling
 of perturbation vectors from the set $\mathbf{V}$ after enumerating
@@ -343,17 +334,17 @@ are obtained, readers are referred to
 \citet{Zamar:2006}.
 
 
-\section{Inference Provided by elrm} \label{Inference provided by elrm}
+\section[Inference provided by elrm]{Inference provided by \pkg{elrm}} \label{ipbe}
 
 Let $S_{1},...,S_{p}$ denote the sufficient statistics for the
 nuisance parameters $\beta_{1},...,\beta _{p}$ in the logistic
 regression model. Likewise let $T_{1},...,T_{q}$ denote the
 sufficient statistics for $\gamma _{1},...,\gamma _{q}$, the
-parameters of interest. In this section we describe the methods
+parameters of interest. In this section, we describe the methods
 used by \pkg{elrm} to conduct hypothesis tests and produce point
 and interval estimates for the parameters of interest.
 
-\subsection{Hypothesis Tests}
+\subsection{Hypothesis tests}
 
 To conduct joint inference on $\gamma _{1},...,\gamma _{q}$,
 \pkg{elrm} first produces a sample of dependent observations from
@@ -371,9 +362,9 @@ against the two-sided alternative%
 \begin{equation*}
 H_{1}:\exists \text{ }\gamma _{i}\neq 0,\quad i=1,...,q
 \end{equation*}
-we compute an approximate two-sided p-value for the conditional
+we compute an approximate two-sided $p$~value for the conditional
 probabilities test \citep[e.g.][]{Mehta:1995}. The two-sided
-p-value for the conditional probabilities test is obtained by
+$p$~value for the conditional probabilities test is obtained by
 summing estimates of the probabilities
 (\ref{joint conditional distribution}) over
 the critical region
@@ -386,7 +377,7 @@ _{\mathbf{T}}\left( \mathbf{t}|\text{ }\mathbf{S=s},\text{ }\mathbf{\gamma }=%
 where $\mathbf{t}$ is the observed value of the sufficient statistics for $%
 \gamma _{1},...,\gamma _{q}$ and $\hat{f}_{\mathbf{T}}$ is an estimate of (%
 \ref{joint conditional distribution}). The Monte Carlo standard
-error of the resulting p-value estimate is computed by the
+error of the resulting $p$~value estimate is computed by the
 batch-means method \citep[e.g.][]{Geyer:1992}.
 
 To conduct separate inference on each $\gamma _{i}$, we consider $%
@@ -420,7 +411,7 @@ against the two-sided alternative%
 \begin{equation*}
 H_{1}:\gamma _{i}\neq 0.
 \end{equation*}
-We compute an approximate two-sided p-value by summing estimates of
+We compute an approximate two-sided $p$~value by summing estimates of
 the probabilities (\ref{marginal conditional density}) over the critical region%
 \begin{equation*}
 E_{cp}=\left\{ u:\hat{f}_{T_{i}}\left( u\text{ }|\text{
@@ -429,10 +420,10 @@ E_{cp}=\left\{ u:\hat{f}_{T_{i}}\left( u\text{ }|\text{
 _{T_{i}}\left( t_{i}\text{ }|\text{ }\mathbf{S=s,}\text{ }\mathbf{T}_{-i}=%
 \mathbf{t}_{-i},\text{ }\gamma _{i}=0\right) \right\} .
 \end{equation*}%
-The Monte Carlo standard error of each resulting p-value is again
+The Monte Carlo standard error of each resulting $p$~value is again
 computed by the batch-means method.
 
-\subsection{Point and Interval Estimates}
+\subsection{Point and interval estimates}
 
 The \pkg{elrm} package returns a point estimate and confidence
 interval for each $\gamma _{i}$ of interest. Where
@@ -491,10 +482,10 @@ t_{min}\leq t_{i}<t_{max} \\
 \gamma_{+} &=&\infty \text{ \ \ \ \ \ if \ \ }t_{i}=t_{max}.
 \end{eqnarray*}
 
-\section{Using elrm and its Features} \label{Using elrm and its features}
+\section[Using elrm and its features]{Using \pkg{elrm} and its features} \label{ueaif}
 
 Our contributed \proglang{R}\ package, \pkg{elrm}, is available
-for download from the Comprehensive R Archive Network (CRAN)
+for download from the Comprehensive \proglang{R} Archive Network (CRAN)
 website at \url{http://CRAN.R-project.org/}.
 
 The main function of the \pkg{elrm} package is \code{elrm()},
@@ -505,15 +496,15 @@ chain of sampled sufficient statistics for the parameters of
 interest in the logistic regression model (conditional on the
 observed values of the sufficient statistics for the nuisance
 parameters) and conduct inference. The generated chain, saved as
-an ``\code{mcmc}" object from the \pkg{coda} package, is stored
-along with inference results in the ``\code{elrm}" object that is
+an ``\code{mcmc}" object from the \pkg{coda} package \citep{coda},
+is stored along with inference results in the ``\code{elrm}" object that is
 returned. The user specifies the logistic regression model and
 regression parameters of interest by passing:
 
 \begin{enumerate}
 
 \item \code{formula}: a symbolic description in
-\proglang{R}-formula format of the logistic regression model
+\proglang{R} formula format of the logistic regression model
 (including nuisance parameters and parameters of interest). One
 exception is that the binomial response should be specified as
 success/trials, where success gives the number of successes and
@@ -521,7 +512,7 @@ trials gives the number of binomial trials for each row of the
 dataset.
 
 \item \code{interest}: a symbolic description in
-\proglang{R}-formula format of the model terms for which exact
+\proglang{R} formula format of the model terms for which exact
 conditional inference is of interest.
 
 \item \code{dataset}: a ``\code{data.frame}" object where the data
@@ -536,11 +527,11 @@ default values, see the help file.
 The \code{summary()} method for \pkg{elrm} formats and prints the
 ``\code{elrm}" object. The summary includes the matched call,
 coefficient estimates and confidence intervals for each model term
-of interest, estimated p-value for jointly testing that the
+of interest, estimated $p$~value for jointly testing that the
 parameters of interest are equal to zero, full conditional
-p-values from separately testing each parameter equal to zero,
+$p$~values from separately testing each parameter equal to zero,
 length of the Markov chain upon which inference was based, and the
-Monte Carlo standard error of each reported p-value.
+Monte Carlo standard error of each reported $p$~value.
 
 The \code{plot} method can be used as a diagnostic tool to check
 whether the Markov chain has converged; it produces both a trace
@@ -557,9 +548,9 @@ of the range and frequency of the sampled values. Sometimes,
 non-convergence may be reflected by severe multimodality
 \citep{Gilks:1996}. In this case, it is important to let the
 algorithm run longer. The trace plot and histogram are based on a
-random sample consisting of $\code{p}\times100\%$ of all the
-observations in the Markov chain, where the sampling fraction $0 <
-\code{p} \leq 1$ is specified by the user. The default value of
+random sample consisting of \code{p}$\times100\%$ of all the
+observations in the Markov chain, where the sampling fraction
+$0 <$ \code{p} $\leq 1$ is specified by the user. The default value of
 \code{p} is 1. The observations in the random sample remain in the
 order in which they were generated by the Markov chain.
 
@@ -573,7 +564,7 @@ based on the extended Markov chain.
 \section{Examples} \label{Examples}
 This section illustrates the use of \pkg{elrm} with examples.
 
-\subsection{Simulated Diabetes Example}
+\subsection{Simulated diabetes example}
 
 The simulated dataset, \code{diabDat}, from the \pkg{elrm} package
 will be used for this example and can be loaded into \proglang{R}
@@ -594,11 +585,9 @@ of the HLA-DQ2, HLA-DQ8 and HLA-DQ6.2 haplotypes (\code{nDQ2},
 for the simulated data was generated under the following logistic
 regression model, which includes all main effects and two way
 interactions involving genetic effects and age:
-\begin{equation*}
-\textit{IA2A} \sim \textit{age + gender + nDQ2 + nDQ8 + nDQ6.2 +
-age:nDQ2 + age:nDQ8 + age:nDQ6.2}
-%\label{eq:model}
-\end{equation*}
+\begin{Code}
+IA2A ~ age + gender + nDQ2 + nDQ8 + nDQ6.2 + age:nDQ2 + age:nDQ8 + age:nDQ6.2
+\end{Code}
 The coefficients for \code{nDQ6.2} and \code{age:nDQ6.2} were set
 to zero and the coefficients for the remaining regression
 parameters were assigned their estimated values based on the
@@ -606,7 +595,7 @@ original data. The first five rows of the simulated data are shown
 below.
 \begin{CodeChunk}
 \begin{CodeInput}
-R> head("diabDat")
+R> head(diabDat)
 \end{CodeInput}
 \begin{CodeOutput}
   n IA2A gender age nDQ2 nDQ8 nDQ6.2
@@ -635,7 +624,7 @@ the \pkg{LogXact} program. The approximate exact `Monte Carlo'
 method in \pkg{LogXact} ran out of memory during the network
 construction phase. The Gibb's sampler `MCMC' method in
 \pkg{LogXact} produced a degenerate chain. In contrast, \pkg{elrm}
-was able to provide results. The estimated exact p-value and its
+was able to provide results. The estimated exact $p$~value and its
 Monte Carlo standard error are based on a Markov chain of length
 99,500 (after a burn-in of 500 iterations). Inference was obtained
 with the following call:
@@ -643,7 +632,7 @@ with the following call:
 \begin{CodeInput}
 R> simDiab.elrm <- elrm(IA2A/n ~ gender + age + nDQ2 + nDQ8 + nDQ6.2 +
 age:nDQ2 + age:nDQ8 + age:nDQ6.2, interest = ~age:nDQ6.2 + nDQ6.2,
-iter = 100000, burnIn = 500, dataset = diabDat);
+iter = 100000, burnIn = 500, dataset = diabDat)
 \end{CodeInput}
 \begin{CodeOutput}
 Generating the Markov chain ...
@@ -693,7 +682,7 @@ age:nDQ6.2    NA    NA
 \end{CodeOutput}
 \end{CodeChunk}
 
-The resulting p-value of 0.76555 for the joint effects of
+The resulting $p$~value of 0.76555 for the joint effects of
 \code{nDQ6.2} and \code{age:nDQ6.2} is consistent with the model
 used to generate these simulated data. The Markov chains produced
 for separately testing \code{nDQ6.2} and \code{age:nDQ6.2} are
@@ -703,7 +692,8 @@ intervals are reported for \code{nDQ6.2} and \code{age:nDQ6.2}
 because the estimated full conditional distribution of the
 sufficient statistic for each parameter is degenerate.
 
-\subsection{Urinary Tract Infection Example}
+\subsection{Urinary tract infection example}
+
 The \code{utiDat} dataset from the \pkg{elrm} package
 can be loaded into \proglang{R} with the
 command:
@@ -779,31 +769,31 @@ dia  1.96395 0.03365    0.00571   49000
 dia -0.07632582   Inf
 \end{CodeOutput}
 \end{CodeChunk}
-The estimated exact p-value for the effect of \code{dia} and its
+The estimated exact $p$~value for the effect of \code{dia} and its
 Monte Carlo standard error are based on a Markov chain of length
 49,000 (after a burn-in of 1000). Notice that the estimated exact
-p-value is less than $0.05$, but the $95\%$ confidence interval
+$p$~value is less than $0.05$, but the $95\%$ confidence interval
 for \code{dia} contains $0$. The apparent disagreement arises
-because the reported p-value is based on the conditional
+because the reported $p$~value is based on the conditional
 probabilities test while the confidence interval is based on the
 conditional likelihood ratio test. A finite upper bound for the
 confidence interval could not be obtained because the observed
 value of the sufficient statistic is the maximum possible value. A
 trace plot and histogram of values of the sufficient statistic for
-\code{dia} sampled by the Markov chain are shown in Figure
-\ref{fig1}. The command used to produce the figure is
+\code{dia} sampled by the Markov chain are shown in Figure~\ref{fig1}.
+The command used to produce the figure is
 \begin{CodeChunk}
 \begin{CodeInput}
 R> plot(uti.elrm)
 \end{CodeInput}
 \end{CodeChunk}
 
-\begin{figure}[h]
+\begin{figure}[tb]
 \begin{center}
 \label{fig1}
-\includegraphics[width=3.5in,height=3.5in]{images/dia.jpg}
-\caption {Plot of the Markov Chain Produced for the \code{dia}
-Parameter in the UTI Example}
+\includegraphics[width=0.85\textwidth]{Figures/dia.jpg}
+\caption {Plot of the Markov chain produced for the \code{dia}
+parameter in the UTI example.}
 \end{center}
 \end{figure}
 
@@ -828,7 +818,8 @@ $dia
 \end{CodeOutput}
 \end{CodeChunk}
 
-\subsection{Hypothetical Drug Experiment Example}
+\subsection{Hypothetical drug experiment example}
+
 The drugDat dataset from the \pkg{elrm}, shown below,
 can be loaded into \proglang{R} with the
 command:
@@ -910,7 +901,7 @@ could increase the length of the chain by 50,000 iterations (from
 2000 to 52,000) and use a burn-in period of 5000:
 \begin{CodeChunk}
 \begin{CodeInput}
-drug.elrm <- update(drug.elrm, iter = 50000, burnIn = 5000)
+R> drug.elrm <- update(drug.elrm, iter = 50000, burnIn = 5000)
 \end{CodeInput}
 \begin{CodeOutput}
 Generating the Markov chain ...
@@ -946,7 +937,7 @@ sex       -0.6048941 1.292658
 treatment -0.1285475 1.866684
 \end{CodeOutput}
 \end{CodeChunk}
-The estimated exact p-value for the joint effect of \code{sex} and
+The estimated exact $p$~value for the joint effect of \code{sex} and
 \code{treatment} and its Monte Carlo standard error are based on a
 Markov chain of length 47,000 (after a burn-in of 5000). Full
 conditional inferences for \code{sex} and \code{treatment} are
@@ -959,7 +950,7 @@ In this section we compare the results obtained by \pkg{elrm} and
 \pkg{LogXact} for the urinary tract infection data and the
 hypothetical drug experiment data.
 
-\subsection{Urinary Tract Infection Example}
+\subsection{Urinary tract infection example}
 
 Exact inference for the \code{dia} parameter could not be obtained
 by \pkg{LogXact}~7 due to memory constraints, while the Gibb's
@@ -973,12 +964,17 @@ complete and required a cumbersome 1042 MB of memory. In contrast,
 observations and required only 75 MB of memory.
 
 Inferences for the \code{dia} regression parameter obtained by
-\pkg{LogXact}~7 and \pkg{elrm} are shown in Table \ref{inference
-for dia}, and are similar.
-\begin{table}[h!]
+\pkg{LogXact}~7 and \pkg{elrm} are shown in Table~\ref{ifd}, and are similar.
+However, as shown in Table~\ref{edd}, some
+differences may be observed in the corresponding conditional
+distributions estimated by each method. A noticeable difference is
+that \pkg{LogXact}~7 does not sample the value zero, suggesting
+that the \pkg{elrm} Markov chain mixed well.
+
+\begin{table}[b!]
 \begin{center}
 \begin{tabular}{ccccc}
-& estimate & 95\% CI & p-value & SE of p-value \\
+& estimate & 95\% CI & $p$~value & SE of $p$~value \\
 \cline{2-5}\cline{4-5} \multicolumn{1}{l}{\code{dia}
 (\pkg{LogXact}~7)} & \multicolumn{1}{|c}{2.0500 MUE} &
 \multicolumn{1}{|c|}{(-0.0726, +INF)} &
@@ -989,16 +985,13 @@ for dia}, and are similar.
 \multicolumn{1}{|c}{0.0337} & \multicolumn{1}{|c|}{0.0057} \\
 \cline{2-5}\cline{4-5}
 \end{tabular}
+\caption{\label{ifd} Inference for the \code{dia}
+parameter in the UTI example.}
 \end{center}
-\label{inference for dia} \caption{Inference for the \code{dia}
-Parameter in the UTI Example}
 \end{table}
-However, as shown in Table \ref{emprical dist. dia}, some
-differences may be observed in the corresponding conditional
-distributions estimated by each method. A noticeable difference is
-that \pkg{LogXact}~7 does not sample the value zero, suggesting
-that the \pkg{elrm} Markov chain mixed well.
-\begin{table}[h!]
+
+
+\begin{table}[t]
 \begin{center}
 \begin{tabular}{lcc}
 \code{dia} & \pkg{elrm} &  \ \pkg{LogXact}~7 \\ \hline
@@ -1011,21 +1004,28 @@ that the \pkg{elrm} Markov chain mixed well.
 6 & \multicolumn{1}{|c}{ \ 0.1638} &  \ 0.2219 \\
 7 & \multicolumn{1}{|c}{ \ 0.0303} &  \ 0.0170%
 \end{tabular}
+\caption{\label{edd} Empirical conditional
+distribution of the sufficient statistic for the \code{dia}
+parameter in the UTI example.}
 \end{center}
-\label{emprical dist. dia} \caption{Empirical Conditional
-Distribution of the Sufficient Statistic for the \code{dia}
-Parameter in the UTI Example}
 \end{table}
 
-\subsection{Hypothetical Drug Experiment Example}
+\subsection{Hypothetical drug experiment example}
 
 The results obtained by \pkg{elrm} for the \code{drugDat} dataset
-are summarized in Table \ref{elrm/logxact results drugDat}. Also
-included in Table \ref{elrm/logxact results drugDat} are the exact
+are summarized in Table~\ref{elrd}. Also
+included in Table~\ref{elrd} are the exact
 results obtained by \pkg{LogXact}~7 and the absolute relative
 error between the \pkg{elrm} and \pkg{LogXact}~7 results. The
 \pkg{elrm} results are in close agreement with those produced by
 \pkg{LogXact}~7's exact method.
+
+The percentage errors, obtained by multiplying the relative errors
+by $100\%$, are all less than 10 percent, which is quite good
+given that the Markov chain was moderately small with a length of
+52,000 and that full conditional inference for \code{sex} and
+\code{treatment} was based on relatively short Markov chains of
+length 1397 and 6305, respectively.
 
 \begin{table}[h!]
 \begin{center}
@@ -1033,8 +1033,8 @@ error between the \pkg{elrm} and \pkg{LogXact}~7 results. The
 \hline & \multicolumn{2}{|c|}{\pkg{elrm}} &
 \multicolumn{2}{|c|}{\pkg{LogXact}~7} &
 \multicolumn{2}{|c|}{relative error} \\ \cline{2-7}
-\multicolumn{1}{|l|}{} & estimate & p-value & estimate & p-value &
-estimate & p-value \\ \hline \multicolumn{1}{|l|}{joint} & -- &
+\multicolumn{1}{|l|}{} & estimate & $p$~value & estimate & $p$~value &
+estimate & $p$~value \\ \hline \multicolumn{1}{|l|}{joint} & -- &
 \multicolumn{1}{|r|}{0.1532} & \multicolumn{1}{|c|}{--} &
 \multicolumn{1}{|r|}{0.1409} & -- & \multicolumn{1}{|r|}{0.0872} \\
 \hline \multicolumn{1}{|l|}{\code{sex}} &
@@ -1047,18 +1047,11 @@ estimate & p-value \\ \hline \multicolumn{1}{|l|}{joint} & -- &
 \multicolumn{1}{|r|}{0.0002} & \multicolumn{1}{|r|}{0.0221} \\
 \hline
 \end{tabular}
+\caption{\label{elrd} Comparison of
+\pkg{elrm} and \pkg{LogXact}~7 results for the hypothetical drug
+experiment data set.}
 \end{center}
-\label{elrm/logxact results drugDat} \caption{Comparison of
-\pkg{elrm} and \pkg{LogXact}~7 Results for the Hypothetical Drug
-Experiment Data Set}
 \end{table}
-
-The percentage errors, obtained by multiplying the relative errors
-by $100\%$, are all less than 10 percent, which is quite good
-given that the Markov chain was moderately small with a length of
-52,000 and that full conditional inference for \code{sex} and
-\code{treatment} was based on relatively short Markov chains of
-length 1397 and 6305, respectively.
 
 \section{Summary} \label{Summary}
 
@@ -1069,13 +1062,13 @@ nuisance parameters. When data are sparse and asymptotic
 approximations based on the unconditional likelihood are
 unreliable, exact inference can still be made. We consider exact
 conditional inference for logistic regression models.  Commercial
-software packages such as \pkg{LogXact} and \pkg{SAS} require
-large amounts of computer memory to make such inference from large
+software packages such as \pkg{LogXact} \citep{LogXact} and \proglang{SAS} \citep{SAS}
+require large amounts of computer memory to make such inference from large
 data sets.
 %%% New
 As pointed out by a reviewer, during the review of this
-manuscript, the commercial software package \pkg{Stata}~10 was
-released with a new command \code{exlogistic} that performs exact
+manuscript, the commercial software package \proglang{Stata}~10 \citep{Stata}
+was released with a new command \code{exlogistic} that performs exact
 inference for logistic regression models faster than
 \pkg{LogXact}. However, \code{exlogistic} was unable to make
 inference for the larger urinary tract infection (UTI) and
@@ -1098,22 +1091,23 @@ Users of \proglang{R} should find \pkg{elrm} easy to work with. The
 logistic model and parameters of interest are specified using
 \proglang{R} formula notation similar to that of \code{glm}. Three
 input arguments upon which the \pkg{elrm} algorithm depends are
-the number of iterations of the Markov chain (default \code{iter}=1000),
-the burn-in period (default \code{burnIn}=0) and the
-value of the Markov chain mixing parameter (default \code{r}=4).
+the number of iterations of the Markov chain (default \code{iter = 1000}),
+the burn-in period (default \code{burnIn = 0}) and the
+value of the Markov chain mixing parameter (default \code{r = 4}).
 Large values of the mixing parameter \code{r} correspond to larger,
 less frequent transitions in the Markov chain, while smaller values of
 \code{r} correspond to smaller, more frequent transitions in the
 chain. Typical values of \code{r} recommended by \citet{Forster:2003}
 are 4, 6 or 8. Inference
-provided by \pkg{elrm} includes an approximate exact p-value for
+provided by \pkg{elrm} includes an approximate exact $p$~value for
 jointly testing that the parameters of interest are equal to zero,
-an approximate exact p-value for separately testing each parameter
+an approximate exact $p$~value for separately testing each parameter
 of interest is equal to zero, the Monte Carlo standard error of
-each reported p-value, and point and interval estimates of the
+each reported $p$~value, and point and interval estimates of the
 coefficients of interest in the logistic regression model.
 
-\section*{Acknowledgements}
+\section*{Acknowledgments}
+
 We would like to thank {\AA}ke Lernmark,
 the Swedish Childhood Diabetes Study Group and the
 Diabetes Incidence in Sweden Study Group for
@@ -1128,8 +1122,6 @@ the Mathematics of Information Technology and Complex Systems,
 Canadian National Centres of Excellence.
 JG is a Scholar of the Michael Smith Foundation for Health Research.
 
-\bibliography{biblio}
-\nocite{*}
-
+\bibliography{v21i03}
 
 \end{document}

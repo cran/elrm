@@ -16,6 +16,8 @@
 Zamar David. Monte Carlo Markov Chain Exact Inference for Binomial
 Regression Models. Master's thesis, Statistics and Actuarial
 Sciences, Simon Fraser University, 2006.
+
+Zamar D, McNeney B and Graham J. elrm: Software Implementing Exact-like Inference for Logistic Regression Models. Journal of Statistical Software 2007, 21(3).
 }
 \author{David Zamar, Jinko Graham, Brad McNeney}
 \seealso{\code{\link{summary.elrm}}, \code{\link{plot.elrm}}, \code{\link{elrm}}.}
