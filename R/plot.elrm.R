@@ -6,8 +6,8 @@ function(x,p=1.0,breaks="Sturges", ask=FALSE, ...)
         stop("'","p","'"," must be a number greater than 0 and smaller than or equal to 1. \n");
     }
     
-    tmp.ask = options("par.ask.default")[[1]];
-    options("par.ask.default"=ask);
+    tmp.ask = options("device.ask.default")[[1]];
+    options("device.ask.default"=ask);
     
     S = as.data.frame(x$mc);
     
@@ -25,7 +25,7 @@ function(x,p=1.0,breaks="Sturges", ask=FALSE, ...)
     
     for(i in 1:length(names(S)))
     {
-        get(getOption("device"))();
+        x11();
         par(mfrow=c(2,1));
         
         plot(y=S[rsample,i],x=rsample,col=(i%%2)+3,pch=19,ylab=as.list(names(S))[i],xlab="iterations",main=paste("Trace for ", names(S)[i]));
@@ -40,6 +40,6 @@ function(x,p=1.0,breaks="Sturges", ask=FALSE, ...)
         }
     }
     
-    options("par.ask.default"=tmp.ask);
+    options("device.ask.default"=tmp.ask);
 }
 

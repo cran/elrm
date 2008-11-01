@@ -1,4 +1,3 @@
 import(coda, graphics, stats)
 export(elrm,summary.elrm,plot.elrm,update.elrm)
 S3method(summary.elrm,plot.elrm,update.elrm)
-

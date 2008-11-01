@@ -43,7 +43,14 @@ function(distTable,S.observed, alpha)
             upper = upper + 1;
         }
 
-        lower.bound = uniroot(f=lower.func,interval=c(lower,upper))$root;
+	  if(lower == upper)
+	  {
+		lower.bound = lower;
+	  }
+	  else
+	  {
+        	lower.bound = uniroot(f=lower.func,interval=c(lower,upper))$root;
+        }
     }
     
     if(S.observed == max(distTable[,1]))
@@ -67,7 +74,14 @@ function(distTable,S.observed, alpha)
             upper = upper + 1;        
         }
 
-        upper.bound = uniroot(f=upper.func,interval=c(lower,upper))$root;
+        if(lower == upper)
+	  {
+		upper.bound = upper;
+	  }
+	  else
+	  {
+     	      upper.bound = uniroot(f=upper.func,interval=c(lower,upper))$root;
+        }
     }
 
     confidence.interval = c(lower.bound,upper.bound);
