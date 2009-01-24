@@ -3,9 +3,24 @@ function(object,iter,burnIn=0,alpha=0.05,...)
 {
     r=object$r;
 
+    if(iter %% 1 != 0)
+    {
+        stop("'iter' must be an integer");
+    }
+	
     if(iter < 0)
     {
         stop("'iter' must be greater than or equal to 0");
+    }
+
+    if(burnIn %% 1 != 0)
+    {
+        stop("'burnIn' must be an integer");
+    }
+
+    if(iter+nrow(object$mc) < burnIn + 1000)
+    {
+        stop("'burnIn' must be atleast 1000 iterations smaller than the total number of Monte Carlo iterations");
     }
 
     dataset = object$dataset;
@@ -48,7 +63,7 @@ function(object,iter,burnIn=0,alpha=0.05,...)
 
     if(iter > 0)
     {  
-        sample.size = floor(iter*0.20);
+        sample.size = max(floor(iter*0.05),1);
         
         k = 0;
         
@@ -61,7 +76,7 @@ function(object,iter,burnIn=0,alpha=0.05,...)
             design.matrix[,yCol]=last.sample;
             write.table(design.matrix,tempdata.filename,quote=FALSE,row.names=FALSE,col.names=FALSE);
             
-            .C("MCMC", as.integer(yCol), as.integer(mCol), as.integer(wCols), as.integer(length(wCols)), as.integer(zCols), as.integer(length(zCols)), as.integer(r), as.character(tempdata.filename), as.character(out.filename), as.integer(min(sample.size,iter-k)), PACKAGE="elrm");
+            .C("MCMC", as.integer(yCol), as.integer(mCol), as.integer(wCols), as.integer(length(wCols)), as.integer(zCols), as.integer(length(zCols)), as.integer(r), as.character(tempdata.filename), as.character(out.filename), as.integer(min(sample.size,iter-k)), as.integer(0), PACKAGE="elrm");
             
             mc = matrix(scan(out.filename,what=numeric(),skip=0,n=min(sample.size,iter-k)*nrow(object$dataset),sep="\t",quiet=T),nrow=min(sample.size,iter-k),ncol=nrow(object$dataset),byrow=T);
         
@@ -101,6 +116,12 @@ function(object,iter,burnIn=0,alpha=0.05,...)
     S.matrix = matrix(rbind(as.matrix(object$mc),S.matrix),ncol=ncol(object$mc));
 
     S.begin  = as.matrix(S.matrix[0:burnIn,]);
+    
+    if(burnIn == 1)
+    {
+        S.begin = as.matrix(t(S.begin));
+    }
+
     S.matrix = as.matrix(S.matrix[(burnIn+1):nrow(S.matrix),]);
     
     marginal = getMarginalInf(S.matrix, S.observed, alpha);

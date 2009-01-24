@@ -1,19 +1,24 @@
 `elrm` <-
 function(formula, interest, r=4, iter=1000, dataset, burnIn=0, alpha=0.05)
 {   
+    if(iter %% 1 != 0)
+    {
+        stop("'iter' must be an integer");
+    }
+
     if(iter < 1000)
     {
         stop("'iter' must be atleast 1,000");
     }
 
-    if(iter < 0)
+    if(burnIn %% 1 != 0)
     {
-        stop("'iter' must be greater than or equal to 0");
+        stop("'burnIn' must be an integer");
     }
 
-    if(iter <= burnIn)
+    if(iter < burnIn + 1000)
     {
-        stop("'iter' must be greater than or equal to 'burnIn'");
+        stop("'burnIn' must be atleast 1,000 iterations smaller than 'iter'");
     }
 
     info = getDesignMatrix(formula,interest,dataset=dataset);
@@ -48,7 +53,7 @@ function(formula, interest, r=4, iter=1000, dataset, burnIn=0, alpha=0.05)
     
     t1 = format(Sys.time(),"");
     
-    sample.size = floor(iter*0.20);
+    sample.size = max(floor(iter*0.05),1);
     
     last.sample = observed.response;
     
@@ -63,8 +68,15 @@ function(formula, interest, r=4, iter=1000, dataset, burnIn=0, alpha=0.05)
         design.matrix[,yCol]=last.sample;
         write.table(design.matrix,tempdata.filename,quote=FALSE,row.names=FALSE,col.names=FALSE);
         
-        .C("MCMC", as.integer(yCol), as.integer(mCol), as.integer(wCols), as.integer(length(wCols)), as.integer(zCols), as.integer(length(zCols)), as.integer(r), as.character(tempdata.filename), as.character(out.filename), as.integer(min(sample.size,iter-k)), PACKAGE="elrm");
-        
+        if(k == 0)
+	  {
+        	.C("MCMC", as.integer(yCol), as.integer(mCol), as.integer(wCols), as.integer(length(wCols)), as.integer(zCols), as.integer(length(zCols)), as.integer(r), as.character(tempdata.filename), as.character(out.filename), as.integer(min(sample.size,iter-k)), as.integer(1), PACKAGE="elrm");
+        }
+        else
+        {
+        	.C("MCMC", as.integer(yCol), as.integer(mCol), as.integer(wCols), as.integer(length(wCols)), as.integer(zCols), as.integer(length(zCols)), as.integer(r), as.character(tempdata.filename), as.character(out.filename), as.integer(min(sample.size,iter-k)), as.integer(0), PACKAGE="elrm");
+        }
+
         mc = matrix(scan(out.filename,what=numeric(),skip=0,n=min(sample.size,iter-k)*nrow(dataset),sep="\t",quiet=T),nrow=min(sample.size,iter-k),ncol=nrow(dataset),byrow=T);
     
         S.temp =  mc %*% Z.matrix
@@ -97,7 +109,13 @@ function(formula, interest, r=4, iter=1000, dataset, burnIn=0, alpha=0.05)
     S.observed = round(as.vector(t(Z.matrix)%*%observed.response,mode='numeric'),6);
     names(S.observed) = names(design.matrix)[zCols];
     
-    S.begin = as.matrix(S.matrix[0:burnIn,]);
+    S.begin  = as.matrix(S.matrix[0:burnIn,]);
+
+    if(burnIn == 1)
+    {
+        S.begin = as.matrix(t(S.begin));
+    }
+
     S.matrix = as.matrix(S.matrix[(burnIn+1):iter,]);
     
     marginal = getMarginalInf(S.matrix, S.observed, alpha);

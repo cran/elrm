@@ -246,7 +246,7 @@ void writeToFile(ofstream & outfile, Matrix sample)
 
 // Function called by R to produce the Markov chain.
 // Markov Chain is written to a file.
-extern "C" void MCMC(int* yColumn, int* mColumn, int* xCols, int* n1, int* zCols, int* n2, int* r, char** datafilename, char** outfilename, int* num_iterations)
+extern "C" void MCMC(int* yColumn, int* mColumn, int* xCols, int* n1, int* zCols, int* n2, int* r, char** datafilename, char** outfilename, int* num_iterations, int* keepObservedSufficientStat)
 {	
 	srand((unsigned int)time(NULL));
 
@@ -368,9 +368,12 @@ extern "C" void MCMC(int* yColumn, int* mColumn, int* xCols, int* n1, int* zCols
 	outfile.close();
 	outfile.open(*outfilename, ios::out | ios::app);
 
-	sample[0] = Matrix(yCurrent);
+	if(*keepObservedSufficientStat == 1)
+	{
+		sample[0] = Matrix(yCurrent);
+	}
 
-	for(i = 1; i < *num_iterations; i++)
+	for(i = *keepObservedSufficientStat; i < *num_iterations; i++)
 	{
 		// jump to next state and update the markov chain
 
