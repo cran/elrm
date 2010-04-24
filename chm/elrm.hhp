@@ -1,0 +1,23 @@
+[OPTIONS]
+Auto Index=Yes
+Contents file=elrm.toc
+Compatibility=1.1 or later
+Compiled file=elrm.chm
+Default topic=00Index.html
+Display compile progress=No
+Full-text search=Yes
+Full text search stop list file=..\..\..\gnuwin32\help\R.stp
+Title=R Help for package elrm
+
+
+[FILES]
+00Index.html
+crashDat.html
+diabDat.html
+drugDat.html
+elrm.html
+plot.elrm.html
+summary.elrm.html
+titanDat.html
+update.elrm.html
+utiDat.html

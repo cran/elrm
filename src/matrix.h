@@ -147,14 +147,14 @@ typedef int bool;
 #    if _MSC_VER >= 1020
 #      include <stdexcept>
 #    else
-#      include <stdexcpt.h>
+#      include <stdexcept>
 #    endif
 #  elif defined(__MWERKS__)
 #      include <stdexcept>
 #  elif (__GNUC__ >= 2 || (__GNUC__ == 2 && __GNUC_MINOR__ >= 8))
 #     include <stdexcept>
 #  else
-#     include <stdexcep>
+#     include <stdexcept>
 #  endif
 #  define _NO_THROW               throw ()
 #  define _THROW_MATRIX_ERROR     throw (matrix_error)

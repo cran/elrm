@@ -4,3 +4,9 @@ Decreased the progress incrememt when generating the Markov chain from 20% to 5%
 Fixed a small bug in the 'elrm' and 'update' methods that wrongly repeated the last sampled response vector in the next batch.
 Added a check that 'iter' and 'burnIn' are integer values in the 'elrm' and 'update' methods.
 Added a check that the Markov chain that is used for conducting inference is atleast of size 1000 in the 'update' method.
+
+Release 1.2.1
+
+Fixed an include statement in matrix.h which was causing make to fail in Linux.
+
+
