@@ -53,19 +53,25 @@ Zamar D, McNeney B and Graham J. elrm: Software Implementing Exact-like Inferenc
 \examples{
 # Drug dataset example with sex and treatment as the variables of interest
 data(drugDat);
-drug.elrm=elrm(formula=recovered/n~sex+treatment,interest=~sex+treatment,r=4,iter=100000,burnIn=1000,dataset=drugDat);
+drug.elrm = elrm(formula=recovered/n~sex+treatment, interest=~sex+treatment, 
+	r=4,iter=50000, burnIn=1000, dataset=drugDat);
 
 \dontrun{
-# crash dataset example where the terms of interest are age and the interaction of age and velocity.
+# crash dataset example where the terms of interest are age and 
+# the interaction of age and velocity.
 data(crashDat);
 # The following call produces the error message shown below.
-crash.elrm = elrm(formula=y/n~vel+age+acl+age:vel, interest=~age+age:vel, r=4, iter=5000, dataset=crash, burnIn=100);
+crash.elrm = elrm(formula=y/n~vel+age+acl+age:vel, interest=~age+age:vel, r=4,
+	 iter=5000, dataset=crash, burnIn=100);
 
 # Error in getDesignMatrix(formula, interest, dataset = dataset) : 
-#        the 'term.labels' attribute of 'terms.formula(interest)' must match those found in 'terms.formula(formula)'
+# the 'term.labels' attribute of 'terms.formula(interest)' must match those 
+# found in 'terms.formula(formula)'
 
-# The error occurs, because the variables within the interaction term in a formula are re-ordered by the ordering in which the variables occur.
-# Thus, the interaction between age and velocity is labeled as vel:age in the 'formula' model and as age:vel in the 'interest' model.
+# The error occurs, because the variables within the interaction term in a formula 
+# are re-ordered by the ordering in which the variables occur. Thus, the interaction 
+# between age and velocity is labeled as vel:age in the 'formula' model and as age:vel 
+# in the 'interest' model.
 
 attr(terms.formula(y/n~vel+age+acl+age:vel),"term.labels");
 # [1] "vel"     "age"     "acl"     "vel:age"
@@ -74,17 +80,20 @@ attr(terms.formula(~age+age:vel),"term.labels");
 # [1] "age"     "age:vel"
 
 # To get around this problem, place age before vel in the 'formula' model.
-crash.elrm = elrm(formula=y/n~age+vel+acl+age:vel, interest=~age+age:vel, r=4, iter=5000, dataset=crash, burnIn=100);
+crash.elrm = elrm(formula=y/n~age+vel+acl+age:vel, interest=~age+age:vel, r=4, 
+	iter=5000, dataset=crash, burnIn=100);
 }
 
 \dontrun{
 # Urinary tract dataset example with dia as the variable of interest
 data(utiDat); 
-uti.elrm=elrm(uti/n~age+current+dia+oc+pastyr+vi+vic+vicl+vis,interest=~dia,r=4,iter=30000,burnIn=1000,dataset=utiDat);}
+uti.elrm = elrm(uti/n~age+current+dia+oc+pastyr+vi+vic+vicl+vis, interest=~dia,r=4, 
+	iter=30000,burnIn=1000, dataset=utiDat);}
 
 \dontrun{
 # Titanic dataset example where the variable of interest, class, is coded as a factor
 data(titanDat); 
-titanic.elrm=elrm(surv/n~as.factor(class)+age+sex,interest=~as.factor(class),r=4,iter=50000,burnIn=1000,dataset=titanDat);}
+titanic.elrm = elrm(surv/n~as.factor(class)+age+sex, interest=~as.factor(class), r=4, 
+	iter=50000, burnIn=1000, dataset=titanDat);}
 }
 \keyword{methods}

@@ -308,9 +308,6 @@ List<List<int>*> listCoprimes(int n)
 	if((n % 2) != 0)
 	{
 		n = n+1;
-
-		std::cout << "n must be an even number!" << endl;
-		std::cout << "coprime will use n = " << n << endl;
 	}
 
 	List<int*> vList;
@@ -573,11 +570,6 @@ extern List<List<double>*> readDataFile(char* filename)
 	List<List<double>*> tokens;
 
 	ifstream in(filename);
-
-	if(in.fail())
-	{
-		std::cout << "File not found: " << filename << endl;
-	}
 
 	while(getline(in, line, '\n'))
 	{	

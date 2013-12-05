@@ -9,4 +9,7 @@ Release 1.2.1
 
 Fixed an include statement in matrix.h which was causing make to fail in Linux.
 
+Release 1.2.2
 
+Replaced the call to x11() with dev.new() as required by R.
+Changed the vignette name from "v21i03" to "elrm".

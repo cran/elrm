@@ -20,7 +20,8 @@ Zamar D, McNeney B and Graham J. elrm: Software Implementing Exact-like Inferenc
 \examples{
 # Drug dataset example with both sex and treatment as the variables of interest
 data(drugDat);
-drug.elrm=elrm(formula=recovered/n~sex+treatment,interest=~sex+treatment,r=4,iter=100000,burnIn=1000,dataset=drugDat); 
+drug.elrm = elrm(formula=recovered/n~sex+treatment, interest=~sex+treatment, r=4, 
+	iter=50000, burnIn=1000, dataset=drugDat); 
 
 # Summarize the results:
 summary(drug.elrm);
@@ -46,7 +47,8 @@ summary(drug.elrm);
 \dontrun{
 # Urinary tract dataset example with dia as the variable of interst
 data(utiDat);
-uti.elrm=elrm(uti/n~age+current+dia+oc+pastyr+vi+vic+vicl+vis,interest=~dia,r=4,iter=30000,burnIn=1000,dataset=utiDat);
+uti.elrm = elrm(uti/n~age+current+dia+oc+pastyr+vi+vic+vicl+vis, interest=~dia, r=4, 
+	iter=30000, burnIn=100, dataset=utiDat);
 
 # Summarize the results:
 summary(uti.elrm);

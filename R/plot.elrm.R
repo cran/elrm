@@ -25,7 +25,8 @@ function(x,p=1.0,breaks="Sturges", ask=FALSE, ...)
     
     for(i in 1:length(names(S)))
     {
-        x11();
+        dev.new();
+		
         par(mfrow=c(2,1));
         
         plot(y=S[rsample,i],x=rsample,col=(i%%2)+3,pch=19,ylab=as.list(names(S))[i],xlab="iterations",main=paste("Trace for ", names(S)[i]));

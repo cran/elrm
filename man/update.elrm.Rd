@@ -24,7 +24,8 @@ Zamar D, McNeney B and Graham J. elrm: Software Implementing Exact-like Inferenc
 \examples{
 # Drug dataset example with sex and treatment as the variables of interest
 data(drugDat);
-drug.elrm=elrm(formula=recovered/n~sex+treatment,interest=~sex+treatment,r=4,iter=2000,burnIn=0,dataset=drugDat); 
+drug.elrm = elrm(formula=recovered/n~sex+treatment, interest=~sex+treatment, r=4, 
+	iter=2000, burnIn=0, dataset=drugDat); 
 
 # Summarize the results
 summary(drug.elrm);
@@ -47,7 +48,8 @@ summary(drug.elrm);
 # sex          NA    NA
 # treatment    NA    NA
 
-# Call update and extend the chain by 50000 iterations and set the burn-in period to 100 iterations
+# Call update and extend the chain by 50000 iterations and set the burn-in 
+# period to 100 iterations
 drug.elrm = update(drug.elrm, iter=50000, burnIn=100);
 
 # Summarize the results
