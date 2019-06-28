@@ -21,7 +21,7 @@ The Monte Carlo standard error of each p-value is computed by the batch-means me
 Inference on each parameter must be based on a Markov chain of at least 1000 iterations, otherwise \code{NA} is returned. \cr \cr 
 If the observed value of the sufficient statistic for a parameter is either the maximum or the minimum value sampled, the MUE of the parameter is given instead of the CMLE. In such cases, the resulting confidence interval is open-ended on one side. \cr \cr
 
-Apart from the documentation files accompanying this package, the \pkg{elrm} package vignette may be downloaded from the \pkg{elrm} package homepage on the SFU Statistical Genetics Working Group website (\url{http://stat-db.stat.sfu.ca:8080/statgen/research/elrm}). The vignette is also distributed with the code.
+Apart from the documentation files accompanying this package, the \pkg{elrm} package vignette may be downloaded from https://www.jstatsoft.org/article/view/v021i03. The vignette is also distributed with the code.
 }
 \value{
   \item{coeffs}{a vector containing the parameter estimates.}
@@ -54,46 +54,18 @@ Zamar D, McNeney B and Graham J. elrm: Software Implementing Exact-like Inferenc
 # Drug dataset example with sex and treatment as the variables of interest
 data(drugDat);
 drug.elrm = elrm(formula=recovered/n~sex+treatment, interest=~sex+treatment, 
-	r=4,iter=50000, burnIn=1000, dataset=drugDat);
+	r=4,iter=40000, burnIn=1000, dataset=drugDat);
 
-\dontrun{
+\donttest{
 # crash dataset example where the terms of interest are age and 
 # the interaction of age and velocity.
 data(crashDat);
-# The following call produces the error message shown below.
-crash.elrm = elrm(formula=y/n~vel+age+acl+age:vel, interest=~age+age:vel, r=4,
-	 iter=5000, dataset=crash, burnIn=100);
+crash.elrm = elrm(formula=y/n~vel+age+vel:age, interest=~vel:age, r=4, iter=10000, 
+	dataset=crashDat, burnIn=100);
 
-# Error in getDesignMatrix(formula, interest, dataset = dataset) : 
-# the 'term.labels' attribute of 'terms.formula(interest)' must match those 
-# found in 'terms.formula(formula)'
-
-# The error occurs, because the variables within the interaction term in a formula 
-# are re-ordered by the ordering in which the variables occur. Thus, the interaction 
-# between age and velocity is labeled as vel:age in the 'formula' model and as age:vel 
-# in the 'interest' model.
-
-attr(terms.formula(y/n~vel+age+acl+age:vel),"term.labels");
-# [1] "vel"     "age"     "acl"     "vel:age"
-
-attr(terms.formula(~age+age:vel),"term.labels");
-# [1] "age"     "age:vel"
-
-# To get around this problem, place age before vel in the 'formula' model.
-crash.elrm = elrm(formula=y/n~age+vel+acl+age:vel, interest=~age+age:vel, r=4, 
-	iter=5000, dataset=crash, burnIn=100);
-}
-
-\dontrun{
 # Urinary tract dataset example with dia as the variable of interest
 data(utiDat); 
 uti.elrm = elrm(uti/n~age+current+dia+oc+pastyr+vi+vic+vicl+vis, interest=~dia,r=4, 
-	iter=30000,burnIn=1000, dataset=utiDat);}
-
-\dontrun{
-# Titanic dataset example where the variable of interest, class, is coded as a factor
-data(titanDat); 
-titanic.elrm = elrm(surv/n~as.factor(class)+age+sex, interest=~as.factor(class), r=4, 
-	iter=50000, burnIn=1000, dataset=titanDat);}
+	iter=20000,burnIn=1000, dataset=utiDat);}
 }
 \keyword{methods}

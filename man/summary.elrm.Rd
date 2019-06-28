@@ -26,25 +26,7 @@ drug.elrm = elrm(formula=recovered/n~sex+treatment, interest=~sex+treatment, r=4
 # Summarize the results:
 summary(drug.elrm);
 
-# Call:
-# [[1]]
-# elrm(formula = recovered/n ~ sex + treatment, interest = ~sex + 
-#     treatment, r = 4, iter = 1e+05, dataset = drugDat, burnIn = 1000)
-
-
-# Results:
-#           estimate p-value p-value_se mc_size
-# joint           NA 0.12951    0.00216   99000
-# sex        0.29479 0.54092    0.00880    2749
-# treatment  0.82389 0.06892    0.00347   13131
-
-# 95\% Confidence Intervals for Parameters
-
-#                lower    upper
-# sex       -0.6109481 1.209525
-# treatment -0.1042183 2.028083
-
-\dontrun{
+\donttest{
 # Urinary tract dataset example with dia as the variable of interst
 data(utiDat);
 uti.elrm = elrm(uti/n~age+current+dia+oc+pastyr+vi+vic+vicl+vis, interest=~dia, r=4, 
@@ -52,22 +34,6 @@ uti.elrm = elrm(uti/n~age+current+dia+oc+pastyr+vi+vic+vicl+vis, interest=~dia, 
 
 # Summarize the results:
 summary(uti.elrm);
-
-# Call:
-# [[1]]
-# elrm(formula = uti/n ~ age + current + dia + oc + pastyr + vi + 
-#     vic + vicl + vis, interest = ~dia, r = 4, iter = 30000, dataset = uti, 
-#     burnIn = 1000)
-
-
-# Results:
-#     estimate p-value p-value_se mc_size
-# dia  2.07146 0.03286    0.00802   29000
-
-# 95\% Confidence Intervals for Parameters
-
-#           lower upper
-# dia -0.06231932   Inf
 }
 }
 \keyword{methods}

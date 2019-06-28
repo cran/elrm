@@ -95,7 +95,7 @@ function(object,iter,burnIn=0,alpha=0.05,...)
             
         Sys.sleep(0.10);
     
-        cat('\n');
+        message('\n');
     }
     
     unlink(tempdata.filename);

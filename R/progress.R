@@ -19,7 +19,7 @@ function (value, max.value = NULL)
         if (erase.only) 
             message <- ""
         else message <- paste("Progress: ", value, "%  ", sep = "")
-        cat(backspaces, message, sep = "")
+        message(backspaces, message, sep = "", appendLF = FALSE)
     }
     else {
         backspaces <- paste(rep("\b", 2 * l + 16), collapse = "")
@@ -27,7 +27,7 @@ function (value, max.value = NULL)
             message <- ""
         else message <- paste("Progress: ", value, " on ", max.value, 
             "  ", sep = "")
-        cat(backspaces, message, sep = "")
+        message(backspaces, message, sep = "", appendLF = FALSE)
     }
     if (.Platform$OS.type == "windows") 
         flush.console()

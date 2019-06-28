@@ -13,3 +13,8 @@ Release 1.2.2
 
 Replaced the call to x11() with dev.new() as required by R.
 Changed the vignette name from "v21i03" to "elrm".
+
+Release 1.2.3
+
+Corrected some issues that were triggering warnings or notes during routine CRAN checks.
+Shortened examples so that they do not take as long to run.

@@ -24,11 +24,11 @@ Zamar D, McNeney B and Graham J. elrm: Software Implementing Exact-like Inferenc
 # Drug dataset example with sex and treatment as the variables of interest
 data(drugDat);
 drug.elrm = elrm(formula=recovered/n~sex+treatment, interest=~sex+treatment, r=4, 
-	iter=50000, burnIn=1000, dataset=drugDat);
+	iter=40000, burnIn=1000, dataset=drugDat);
 
 # Plot the sampled values of the sufficient statistic for each parameter of 
 # interest (sex and treatment)
-plot(drug.elrm,p=0.5,ask=TRUE);
+plot(drug.elrm,p=0.10,ask=TRUE);
 }
 \keyword{methods}
 

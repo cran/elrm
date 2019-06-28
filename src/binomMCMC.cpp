@@ -28,11 +28,12 @@ Matrix nextV(Matrix xMatrix, Matrix mMatrix, Array2D<int> v, int r)
 	{
 		valid = true;
 		
-		double runif = (float) rand()/RAND_MAX;
+		// double runif = (float) rand()/RAND_MAX;
+		double r_unif = runif(0,1);
 		
 		double acc = 0;
 		
-		if(runif == 1)
+		if(r_unif == 1)
 		{
 			index = v.m - 1;
 		}
@@ -42,7 +43,7 @@ Matrix nextV(Matrix xMatrix, Matrix mMatrix, Array2D<int> v, int r)
 			{
 				acc += weightings[i];
 				
-				if(runif <= acc)
+				if(r_unif <= acc)
 				{
 					index = i;
 					
@@ -200,7 +201,8 @@ int getd(Matrix v, Matrix mMatrix, Matrix yCurrent)
 		probList.set(exp(probList.get(i))/sum,i);
 	}
 
-	double r_unif = (double)rand() / ((double)(RAND_MAX)+(double)(1));
+	// double r_unif = (double)rand() / ((double)(RAND_MAX)+(double)(1));
+	double r_unif = runif(0,1);
 
 	double acc = 0;
 
@@ -243,12 +245,12 @@ void writeToFile(ofstream & outfile, Matrix sample)
 		outfile << sample;
 	}
 }
-
+  
 // Function called by R to produce the Markov chain.
 // Markov Chain is written to a file.
 extern "C" void MCMC(int* yColumn, int* mColumn, int* xCols, int* n1, int* zCols, int* n2, int* r, char** datafilename, char** outfilename, int* num_iterations, int* keepObservedSufficientStat)
 {	
-	srand((unsigned int)time(NULL));
+	// srand((unsigned int)time(NULL));
 
 	// entire data file
 	List<List<double>*> dataset;

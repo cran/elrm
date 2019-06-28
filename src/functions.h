@@ -14,6 +14,7 @@
 #include <fstream>
 #include <sstream>
 #include "matrix.h"
+#include "Rmath.h"
 
 #ifndef _NO_NAMESPACE
 using namespace math;

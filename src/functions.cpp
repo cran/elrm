@@ -3,6 +3,8 @@
 
 #include "functions.h"
 #include <math.h>
+#include <R.h>
+#include "Rmath.h"
 
 // Swap two elements in an array of integers.
 // NOTE: The array passed is modified (elements are swapped).
@@ -66,14 +68,21 @@ extern double nCk(double n, double k)
 // NOTE: the array passed is modified (sorted).
 extern void randPerm(int* vec, int n)
 { 
-	int r;
-
-	for(int i = n-1; i > 0; i--)
+	int j;
+	
+	GetRNGstate();
+	
+	for(int i = 0; i < n; i++)
 	{
-		r = rand() % i;
+		// generate a random number j such that i <= j < n and
+		// swap the element present at index j with the element 
+		// present at current index i
+		j = i + rand_int(n-i);
 
-		swap(vec, i, r);
+		swap(vec, i, j);
 	}
+	
+	PutRNGstate();
 }
 
 // Random sample of size k from a vector of size n > k
@@ -82,6 +91,8 @@ extern void rsample(int* sample, int* vec, int k, int n)
 { 
 	int i,j,r;
 	bool valid = true;
+	
+	GetRNGstate();
 
 	for(i = 0; i < k; i++)
 	{
@@ -89,7 +100,7 @@ extern void rsample(int* sample, int* vec, int k, int n)
 		{
 			valid = true;
 
-			r = rand() % n;
+			r = rand_int(n);
 
 			for(j = 0; j < i; j++)
 			{
@@ -106,6 +117,8 @@ extern void rsample(int* sample, int* vec, int k, int n)
 
 		sample[i] = vec[r];
 	}
+	
+	PutRNGstate();
 }
 
 // Permute an array of integers.
@@ -705,7 +718,8 @@ extern List<int> atoiList(char* char_array)
 // Obtain a random integer between 0 (inclusive) and N (exclusive).
 extern int rand_int(int n)
 {
-	return (int)(n * rand() / (RAND_MAX + 1.0));
+	// return (int)(n * rand() / (RAND_MAX + 1.0));
+	return(floor(runif(0,n)));
 }
 
 // Round a double to a given precision.

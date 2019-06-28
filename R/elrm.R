@@ -69,7 +69,7 @@ function(formula, interest, r=4, iter=1000, dataset, burnIn=0, alpha=0.05)
         write.table(design.matrix,tempdata.filename,quote=FALSE,row.names=FALSE,col.names=FALSE);
         
         if(k == 0)
-	  {
+		{
         	.C("MCMC", as.integer(yCol), as.integer(mCol), as.integer(wCols), as.integer(length(wCols)), as.integer(zCols), as.integer(length(zCols)), as.integer(r), as.character(tempdata.filename), as.character(out.filename), as.integer(min(sample.size,iter-k)), as.integer(1), PACKAGE="elrm");
         }
         else
@@ -90,7 +90,7 @@ function(formula, interest, r=4, iter=1000, dataset, burnIn=0, alpha=0.05)
     
     progress((k/iter)*100);
     
-    cat('\n');
+    message('\n');
         
     Sys.sleep(0.10);
     

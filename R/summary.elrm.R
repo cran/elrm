@@ -6,15 +6,12 @@ function(object,...)
     results = data.frame(row.names=names(object$coeffs), inferences);
     names(results) = c("estimate","p-value","p-value_se","mc_size");
     
-    cat("\nCall:\n");
-    print(object$call.history);
-    cat('\n');
-    cat("Results:\n");
-    print(results,quote=F);
-    cat('\n');
-    cat(object$ci.level,"% Confidence Intervals for Parameters\n",sep="");
-    cat('\n');
-    print(object$coeffs.ci);
-    cat('\n');
+    message("\nCall:\n");
+    message(object$call.history);
+	message('\n');
+    message("Results:\n");
+    message(paste0(capture.output(results), collapse = "\n"));
+    message('\n');
+	message(object$ci.level,"% Confidence Intervals for Parameters\n",sep="");
+    message(paste0(capture.output(object$coeffs.ci), collapse = "\n"));
 }
-

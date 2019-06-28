@@ -1,31 +1,36 @@
-////////////////////////////////
 // Matrix TCL Lite v1.13
 // Copyright (c) 1997-2002 Techsoft Pvt. Ltd. (See License.Txt file.)
+ 
+// Matrix TCL Lite is the free version of matrix template class library for
+// performing matrix calculations with ease and efficiency in C++ programs.
+// However, it supports only basic matrix operations. It is actually the older
+// version of our Matrix TCL Pro package and does not contain separate
+// documentation except some brief description at the top of the header file.
+// This library is free for educational and non-commercial use.
+
 //
-// Matrix.h: Matrix C++ template class include file 
+// Matrix.h: Matrix C++ template class include file
 // Web: http://www.techsoftpl.com/matrix/
 // Email: matrix@techsoftpl.com
 //
 
-//////////////////////////////
 // Installation:
 //
 // Copy this "matrix.h" file into include directory of your compiler.
 //
 
-//////////////////////////////
 // Note: This matrix template class defines majority of the matrix
 // operations as overloaded operators or methods. It is assumed that
 // users of this class is familiar with matrix algebra. We have not
 // defined any specialization of this template here, so all the instances
 // of matrix will be created implicitly by the compiler. The data types
 // tested with this class are float, double, long double, complex<float>,
-// complex<double> and complex<long double>. Note that this class is not 
+// complex<double> and complex<long double>. Note that this class is not
 // optimized for performance.
 //
 // Since implementation of exception, namespace and template are still
-// not standardized among the various (mainly old) compilers, you may 
-// encounter compilation error with some compilers. In that case remove 
+// not standardized among the various (mainly old) compilers, you may
+// encounter compilation error with some compilers. In that case remove
 // any of the above three features by defining the following macros:
 //
 //  _NO_NAMESPACE:  Define this macro to remove namespace support.
@@ -156,8 +161,8 @@ typedef int bool;
 #  else
 #     include <stdexcept>
 #  endif
-#  define _NO_THROW               throw ()
-#  define _THROW_MATRIX_ERROR     throw (matrix_error)
+#  define _NO_THROW
+#  define _THROW_MATRIX_ERROR
 #endif
 
 #ifndef __MINMAX_DEFINED
@@ -202,14 +207,14 @@ class matrix_error : public logic_error
     public:
 	matrix_error (const string& what_arg) : logic_error( what_arg) {}
 };
-#define REPORT_ERROR(ErrormMsg)  throw matrix_error( ErrormMsg);
+#define REPORT_ERROR(ErrormMsg)
 #else
 inline void _matrix_error (const char* pErrMsg)
 {
     cout << pErrMsg << endl;
     exit(1);
 }
-#define REPORT_ERROR(ErrormMsg)  _matrix_error( ErrormMsg);
+#define REPORT_ERROR(ErrormMsg)  _matrix_error(ErrormMsg);
 #endif
 
 #if !defined(_NO_TEMPLATE)
