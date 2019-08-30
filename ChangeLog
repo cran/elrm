@@ -18,3 +18,7 @@ Release 1.2.3
 
 Corrected some issues that were triggering warnings or notes during routine CRAN checks.
 Shortened examples so that they do not take as long to run.
+
+Release 1.2.4
+
+Corrected a Solaris installation failure that was showing on the CRAN check results.

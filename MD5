@@ -1,5 +1,5 @@
-286401113e1822834fc178834c50f998 *ChangeLog
-44bf8fe1c4ee74a43b1e4b6b29f55999 *DESCRIPTION
+13bc89cb6688aa305eae5001b9362e99 *ChangeLog
+41aef332a834e2de615bc8b5696faf06 *DESCRIPTION
 c5ab5e3d663a8b5b65caad38a54c019b *NAMESPACE
 cc697879b0916a9dd04f023bbe2647ee *R/adjustProb.R
 11a5b18d42042bff6c07554fcae4baee *R/batchSize.R
@@ -25,7 +25,7 @@ c06a875570622084261c9a047df21dda *R/update.elrm.R
 5677e02f89da5f9950e7de61dd0b4adc *data/utiDat.txt.gz
 202e4a41fa52ded9c3717133d4310d11 *inst/CITATION
 0bc28a40fc77196bdfe48eb6321389f6 *inst/doc/elrm.Rnw
-ba12762d2d6252cc288f85918e38e215 *inst/doc/elrm.pdf
+047b02c116b4c31ec529517aca3e1e1e *inst/doc/elrm.pdf
 adbc25431ad543c48531d027de120b54 *man/crashDat.Rd
 1692eea09a9990e1169a9e0b87938a4b *man/diabDat.Rd
 ee31bb278926f9149d0d3326ed34aa15 *man/drugDat.Rd
@@ -40,7 +40,7 @@ c0aa880caacc4656258c28c4984e8538 *src/List.h
 d8c023cd8ea40f2723c51c263950b646 *src/elrm_init.c
 8977ff96c19e1f06ef4b874322258521 *src/functions.cpp
 39c2cbf622752434e306ff8845a68405 *src/functions.h
-4d57e54f5600131c274acb1c546ae5b6 *src/matrix.h
+6967ef7f8924706f8f2a2dab2af45f17 *src/matrix.h
 ca53ee909ba4ebeea9c327af7fd25436 *vignettes/Figures/dia.jpg
 0bc28a40fc77196bdfe48eb6321389f6 *vignettes/elrm.Rnw
 9814f9ed9baf838c8ae0f07dcc0ea68f *vignettes/elrm.bib

@@ -79,20 +79,12 @@
 // It is available from our web site at <http://www.techsoftpl.com/matrix/>.
 //
 
-#if ( defined(__BORLANDC__) || _MSC_VER <= 1000 ) && !defined( __GNUG__ )
-#  include <stdio.h>
-#  include <stdlib.h>
-#  include <math.h>
-#  include <iostream.h>
-#  include <string.h>
-#else
-#  include <cmath>
-#  include <cstdio>
-#  include <cstdlib>
-#  include <string>
-#  include <iostream>
-#  include <cstring>
-#endif
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <string>
+#include <iostream>
+#include <cstring>
 
 #ifndef __cplusplus
 #error Must use C++ for the type matrix.
