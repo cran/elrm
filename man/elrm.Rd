@@ -40,13 +40,13 @@ Apart from the documentation files accompanying this package, the \pkg{elrm} pac
 }
 \section{Warning}{The labels of the terms in the in the \var{interest} model should match those found in the \var{formula} model. Thus, the \var{term.labels} attribute of \code{terms.formula(\var{interest)}} should match those found in \code{terms.formula(\var{formula})}. Please see the Examples section for more details.}
 \references{
-Forster J.J., McDonald J.W. and Smith P.W.F. Markov Chain Monte Carlo Exact Inference for Binomial and Multinomial Logistic Regression Models. Statistics and Computing, 13:169-177, 2003. 
+Zamar, D., McNeney, B., & Graham, J. (2007). elrm: Software Implementing Exact-Like Inference for Logistic Regression Models. Journal of Statistical Software, 21(3), 1-18.
 
-Geyer C.J. Practical Markov chain Monte Carlo. Statistical Science, 7:473-511, 1992.
+Zamar, D., Monte Carlo Markov Chain Exact Inference for Binomial Regression Models. Master's thesis, Statistics and Actuarial Sciences, Simon Fraser University, 2006
 
-Zamar David. Monte Carlo Markov Chain Exact Inference for Binomial Regression Models. Master's thesis, Statistics and Actuarial Sciences, Simon Fraser University, 2006.
+Forster, J.J., McDonald, J.W. & Smith, P.W.F. Markov chain Monte Carlo exact inference for binomial and multinomial logistic regression models. Statistics and Computing 13, 169-177 (2003).
 
-Zamar D, McNeney B and Graham J. elrm: Software Implementing Exact-like Inference for Logistic Regression Models. Journal of Statistical Software 2007, 21(3).
+Geyer, C.J. Practical Markov chain Monte Carlo. Statistical Science, 7:473-511, 1992
 }
 \author{David Zamar, Jinko Graham, Brad McNeney}
 \seealso{\code{\link{update.elrm}}, \code{\link{summary.elrm}}, \code{\link{plot.elrm}}.}
@@ -60,7 +60,7 @@ drug.elrm = elrm(formula=recovered/n~sex+treatment, interest=~sex+treatment,
 # crash dataset example where the terms of interest are age and 
 # the interaction of age and velocity.
 data(crashDat);
-crash.elrm = elrm(formula=y/n~vel+age+vel:age, interest=~vel:age, r=4, iter=10000, 
+crash.elrm = elrm(formula=y/n~vel+age+vel:age, interest=~vel:age, r=4, iter=20000, 
 	dataset=crashDat, burnIn=100);
 
 # Urinary tract dataset example with dia as the variable of interest

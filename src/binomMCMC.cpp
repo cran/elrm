@@ -16,7 +16,7 @@ int* sequence;
 // Depends on xMatrix, mMatrix and v (seed set R).
 Matrix nextV(Matrix xMatrix, Matrix mMatrix, Array2D<int> v, int r)
 {
-	Matrix temp = Matrix((int)xMatrix.RowNo(),1);
+	Matrix temp((int)xMatrix.RowNo(),1,0);
 	int i,j,index = 0;
 	double crossproduct = 0;
 
@@ -86,10 +86,10 @@ Matrix nextV(Matrix xMatrix, Matrix mMatrix, Array2D<int> v, int r)
 	}
 	while(!valid);
 
-	for(i = 0; i < (int)mMatrix.RowNo(); i++)
+/* 	for(i = 0; i < (int)mMatrix.RowNo(); i++)
 	{
 		temp(i,0) = 0;
-	}
+	} */
 
 	for(i = 0; i < r; i++)
 	{
@@ -258,21 +258,6 @@ extern "C" void MCMC(int* yColumn, int* mColumn, int* xCols, int* n1, int* zCols
 	// array of combinations of legal v's
 	Array2D<int> v;
 
-	// explanatory variables (not of interest)
-	Matrix xMatrix;
-
-	// explanatory variables (of interest)
-	Matrix zMatrix;
-
-	// sample size (per observation)
-	Matrix mMatrix;
-
-	// response vector
-	Matrix yMatrix;
-
-	// current state of the Markov chain
-	Matrix yCurrent;
-
 	// user input variables
 	List<int> xColumns;
 	List<int> zColumns;
@@ -291,7 +276,7 @@ extern "C" void MCMC(int* yColumn, int* mColumn, int* xCols, int* n1, int* zCols
 
 	dataset = readDataFile(*datafilename);
 
-	Matrix dMatrix = Matrix(dataset.getSize(), dataset.get(0)->getSize());
+	Matrix dMatrix(dataset.getSize(), dataset.get(0)->getSize(), 0);
 
 	for(i = 0; i < (int)dMatrix.RowNo(); i++)
 	{
@@ -303,7 +288,8 @@ extern "C" void MCMC(int* yColumn, int* mColumn, int* xCols, int* n1, int* zCols
 		}
 	}
 
-	xMatrix = Matrix((int)dMatrix.RowNo(), xColumns.getSize());
+	// explanatory variables (not of interest)
+	Matrix xMatrix((int)dMatrix.RowNo(), xColumns.getSize(),0);
 
 	for(i = 0; i < xColumns.getSize(); i++)
 	{
@@ -313,7 +299,8 @@ extern "C" void MCMC(int* yColumn, int* mColumn, int* xCols, int* n1, int* zCols
 		}
 	}
 
-	zMatrix = Matrix((int)dMatrix.RowNo(), zColumns.getSize());
+	// explanatory variables (of interest)
+	Matrix zMatrix((int)dMatrix.RowNo(), zColumns.getSize(),0);
 
 	for(i = 0; i < zColumns.getSize(); i++)
 	{
@@ -323,16 +310,19 @@ extern "C" void MCMC(int* yColumn, int* mColumn, int* xCols, int* n1, int* zCols
 		}
 	}
 
-	yMatrix = Matrix((int)dMatrix.RowNo(),1);
+	// array of combinations of legal v's
+	Matrix yMatrix((int)dMatrix.RowNo(),1,0);
 
 	for(i = 0; i < (int)dMatrix.RowNo(); i++)
 	{
 		yMatrix(i,0) = dMatrix(i,*yColumn-1);
 	}
 
-	yCurrent = Matrix(yMatrix);
+	// current state of the Markov chain
+	Matrix yCurrent = yMatrix;
 
-	mMatrix = Matrix((int)dMatrix.RowNo(),1);
+	// sample size (per observation)
+	Matrix mMatrix((int)dMatrix.RowNo(),1,0);
 
 	for(i = 0; i < (int)dMatrix.RowNo(); i++)
 	{
@@ -358,10 +348,7 @@ extern "C" void MCMC(int* yColumn, int* mColumn, int* xCols, int* n1, int* zCols
 	{
 		sequence[i] = i;
 	}
-
-	Matrix vCurrent;
-	double d;
-
+	
 	Matrix sample[SIZE];
 
 	// ofstream outfile;
@@ -372,16 +359,16 @@ extern "C" void MCMC(int* yColumn, int* mColumn, int* xCols, int* n1, int* zCols
 
 	if(*keepObservedSufficientStat == 1)
 	{
-		sample[0] = Matrix(yCurrent);
+		sample[0] = yCurrent;
 	}
 
 	for(i = *keepObservedSufficientStat; i < *num_iterations; i++)
 	{
 		// jump to next state and update the markov chain
 
-		vCurrent = nextV(xMatrix, mMatrix, v, *r);
-		d = getd(vCurrent, mMatrix, yCurrent);
-		yCurrent += (d*vCurrent);
+		Matrix vCurrent = nextV(xMatrix, mMatrix, v, *r);
+		double d = getd(vCurrent, mMatrix, yCurrent);
+		yCurrent += vCurrent*d;
 		sample[i%SIZE] = Matrix(yCurrent);
 
 		if((i+1) % SIZE == 0)

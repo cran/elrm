@@ -16,11 +16,7 @@
 #include "matrix.h"
 #include "Rmath.h"
 
-#ifndef _NO_NAMESPACE
-using namespace math;
-#endif
-
-typedef matrix<double> Matrix;
+typedef QSMatrix<double> Matrix;
 
 static const double PI = 3.141592653589793;
 

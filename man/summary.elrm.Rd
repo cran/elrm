@@ -7,21 +7,24 @@
   \item{object}{an object of class \code{elrm}, resulting from a call to \command{elrm()} or a previous call to \command{update()}.}
   \item{\dots}{additional arguments to the summary function (currently unused).}
 }
+\value{No return value. Results are printed to the screen.}
 \details{The following results are formatted and printed to the screen: the matched call, coefficient estimates and confidence intervals for each model term of interest, estimated p-value for jointly testing that the parameters of interest are simultaneously equal to zero, full conditional p-values from separately testing each parameter equal to zero, length of the Markov chain that inference was based on, and the Monte Carlo standard error of each reported p-value.}
 \references{
-Zamar David. Monte Carlo Markov Chain Exact Inference for Binomial
-Regression Models. Master's thesis, Statistics and Actuarial
-Sciences, Simon Fraser University, 2006.
+Zamar, D., McNeney, B., & Graham, J. (2007). elrm: Software Implementing Exact-Like Inference for Logistic Regression Models. Journal of Statistical Software, 21(3), 1-18.
 
-Zamar D, McNeney B and Graham J. elrm: Software Implementing Exact-like Inference for Logistic Regression Models. Journal of Statistical Software 2007, 21(3).
+Zamar, D., Monte Carlo Markov Chain Exact Inference for Binomial Regression Models. Master's thesis, Statistics and Actuarial Sciences, Simon Fraser University, 2006
+
+Forster, J.J., McDonald, J.W. & Smith, P.W.F. Markov chain Monte Carlo exact inference for binomial and multinomial logistic regression models. Statistics and Computing 13, 169-177 (2003).
+
+Geyer, C.J. Practical Markov chain Monte Carlo. Statistical Science, 7:473-511, 1992
 }
 \author{David Zamar, Jinko Graham, Brad McNeney}
 \seealso{\code{\link{update.elrm}}, \code{\link{plot.elrm}}, \code{\link{elrm}}.}
 \examples{
-# Drug dataset example with both sex and treatment as the variables of interest
+# Drug dataset example with sex as the variable of interest
 data(drugDat);
-drug.elrm = elrm(formula=recovered/n~sex+treatment, interest=~sex+treatment, r=4, 
-	iter=50000, burnIn=1000, dataset=drugDat); 
+drug.elrm = elrm(formula=recovered/n~sex+treatment, interest=~sex, r=4, 
+	iter=2000, burnIn=100, dataset=drugDat); 
 
 # Summarize the results:
 summary(drug.elrm);
