@@ -22,10 +22,7 @@ function(x,p=1.0,breaks="Sturges", ask=FALSE, ...)
             breaks = rep(breaks[1],length(names(S)));
         }
     } 
-	
-	oldpar = par(no.readonly = TRUE)   
-	on.exit(par(oldpar))
-
+    
     for(i in 1:length(names(S)))
     {
         dev.new();
@@ -46,3 +43,4 @@ function(x,p=1.0,breaks="Sturges", ask=FALSE, ...)
     
     options("device.ask.default"=tmp.ask);
 }
+

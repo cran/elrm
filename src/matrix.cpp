@@ -83,8 +83,8 @@ QSMatrix<T>& QSMatrix<T>::operator+=(const QSMatrix<T>& rhs) {
 // Subtraction of this matrix and another                                                                                                                                     
 template<typename T>
 QSMatrix<T> QSMatrix<T>::operator-(const QSMatrix<T>& rhs) {
-  unsigned rows = rhs.get_rows();
-  unsigned cols = rhs.get_cols();
+  unsigned rows = rhs.RowNo();
+  unsigned cols = rhs.ColNo();
   QSMatrix result(rows, cols, 0.0);
 
   for (unsigned i=0; i<rows; i++) {
@@ -99,8 +99,8 @@ QSMatrix<T> QSMatrix<T>::operator-(const QSMatrix<T>& rhs) {
 // Cumulative subtraction of this matrix and another                                                                                                                          
 template<typename T>
 QSMatrix<T>& QSMatrix<T>::operator-=(const QSMatrix<T>& rhs) {
-  unsigned rows = rhs.get_rows();
-  unsigned cols = rhs.get_cols();
+  unsigned rows = rhs.RowNo();
+  unsigned cols = rhs.ColNo();
 
   for (unsigned i=0; i<rows; i++) {
     for (unsigned j=0; j<cols; j++) {
@@ -114,8 +114,8 @@ QSMatrix<T>& QSMatrix<T>::operator-=(const QSMatrix<T>& rhs) {
 // Left multiplication of this matrix and another                                                                                                                              
 template<typename T>
 QSMatrix<T> QSMatrix<T>::operator*(const QSMatrix<T>& rhs) {
-  unsigned rows = rhs.get_rows();
-  unsigned cols = rhs.get_cols();
+  unsigned rows = rhs.RowNo();
+  unsigned cols = rhs.ColNo()();
   QSMatrix result(rows, cols, 0.0);
 
   for (unsigned i=0; i<rows; i++) {

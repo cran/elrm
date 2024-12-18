@@ -10,27 +10,24 @@
 \item{ask}{the graphics parameter \var{ask}: see \code{\link{par}} for details. If set to TRUE will ask between plots corresponding to each sufficient statistic; default=FALSE.}
 \item{\dots}{additional arguments to the plot function (currently unused).}
 }
-\value{No return value. Creates a plot of the sampled sufficent statistics for each parameter of interest.}
 \details{The default for \var{breaks} is "Sturges": see \code{\link[grDevices]{nclass.Sturges}}. Other names for which algorithms are supplied are "Scott" and "FD".}
 \references{
-Zamar, D., McNeney, B., & Graham, J. (2007). elrm: Software Implementing Exact-Like Inference for Logistic Regression Models. Journal of Statistical Software, 21(3), 1-18.
+Zamar David. Monte Carlo Markov Chain Exact Inference for Binomial
+Regression Models. Master's thesis, Statistics and Actuarial
+Sciences, Simon Fraser University, 2006.
 
-Zamar, D., Monte Carlo Markov Chain Exact Inference for Binomial Regression Models. Master's thesis, Statistics and Actuarial Sciences, Simon Fraser University, 2006
-
-Forster, J.J., McDonald, J.W. & Smith, P.W.F. Markov chain Monte Carlo exact inference for binomial and multinomial logistic regression models. Statistics and Computing 13, 169-177 (2003).
-
-Geyer, C.J. Practical Markov chain Monte Carlo. Statistical Science, 7:473-511, 1992
+Zamar D, McNeney B and Graham J. elrm: Software Implementing Exact-like Inference for Logistic Regression Models. Journal of Statistical Software 2007, 21(3).
 }
 \author{David Zamar, Jinko Graham, Brad McNeney}
 \seealso{\code{\link{update.elrm}}, \code{\link{summary.elrm}}, \code{\link{elrm}}.}
 \examples{
-# Drug dataset example with treatment as the variables of interest
+# Drug dataset example with sex and treatment as the variables of interest
 data(drugDat);
-drug.elrm = elrm(formula=recovered/n~sex+treatment, interest=~treatment, r=4, 
-	iter=2000, burnIn=100, dataset=drugDat);
+drug.elrm = elrm(formula=recovered/n~sex+treatment, interest=~sex+treatment, r=4, 
+	iter=40000, burnIn=1000, dataset=drugDat);
 
-# Plot the sampled values of the sufficient statistic for the parameter(s) of 
-# interest
+# Plot the sampled values of the sufficient statistic for each parameter of 
+# interest (sex and treatment)
 plot(drug.elrm,p=0.10,ask=TRUE);
 }
 \keyword{methods}

@@ -14,7 +14,6 @@
 #include <fstream>
 #include <sstream>
 #include "matrix.h"
-#include "Rmath.h"
 
 typedef QSMatrix<double> Matrix;
 

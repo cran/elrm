@@ -1,6 +1,6 @@
 Package: elrm
-Version: 1.2.5
-Date: 2021-10-25
+Version: 1.2.6
+Date: 2024-12-17
 Type: Package
 Title: Exact Logistic Regression via MCMC
 Authors@R: c(person(given="David", family="Zamar", role = c("aut", "cre"), email = "zamar.david@gmail.com"),
@@ -21,5 +21,5 @@ Description: Implements a Markov Chain Monte Carlo algorithm to approximate
 License: GPL (>= 2)
 Repository: CRAN
 NeedsCompilation: yes
-Packaged: 2021-10-25 10:43:14 UTC; zamar
-Date/Publication: 2021-10-26 08:30:02 UTC
+Packaged: 2024-12-18 06:37:09 UTC; zamar
+Date/Publication: 2024-12-18 08:00:07 UTC

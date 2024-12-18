@@ -4,6 +4,7 @@
 #include "functions.h"
 #include <time.h>
 #include <math.h>
+#include "Rmath.h"
 
 // weightings for v
 double* weightings;

@@ -21,8 +21,8 @@ Shortened examples so that they do not take as long to run.
 
 Release 1.2.4
 
-Corrected a Solaris installation failure identified on the CRAN check results.
+Corrected a Solaris installation failure that was showing on the CRAN check results.
 
-Release 1.2.5
+Release 1.2.6
 
-Corrected C++ header and code files so that they are cross-platfrom portable.
+Corrected a compilation error for the matrix class

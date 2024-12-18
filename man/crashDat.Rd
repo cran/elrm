@@ -2,7 +2,7 @@
 \docType{data}
 \alias{crashDat}
 \title{Crash Dataset: Calibration of Crash Dummies in Automobile Safety Tests}
-\description{Data from 58 simulated car crashes were analyzed. The relationship between the crash outcome (fatal, non-fatal) and 3 covariates was modeled.}
+\description{Data from 58 simulated car crashes were analyzed. The relationship between the crash outcome (fatal, non-fatal) and 3 covariates was modeled. }
 \usage{data(drugDat)}
 \format{Matrix with columns:
 \tabular{rlll}{

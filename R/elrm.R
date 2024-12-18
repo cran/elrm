@@ -39,8 +39,8 @@ function(formula, interest, r=4, iter=1000, dataset, burnIn=0, alpha=0.05)
         stop(msg);
     }
     
-    out.filename = paste(tempdir(),"//elrmout",round(runif(1,0,10000),0),".txt",sep="");
-    tempdata.filename = paste(tempdir(),"//elrmtempdata",round(runif(1,0,10000),0),".txt",sep="");
+    out.filename = paste("elrmout",round(runif(1,0,10000),0),".txt",sep="");
+    tempdata.filename = paste("elrmtempdata",round(runif(1,0,10000),0),".txt",sep="");
     write.table(design.matrix,tempdata.filename,quote=FALSE,row.names=FALSE,col.names=FALSE);
     
     Z.matrix = matrix(nrow = nrow(design.matrix), ncol = length(zCols));
@@ -70,11 +70,11 @@ function(formula, interest, r=4, iter=1000, dataset, burnIn=0, alpha=0.05)
         
         if(k == 0)
 		{
-        	.C("MCMC", as.integer(yCol), as.integer(mCol), as.integer(wCols), as.integer(length(wCols)), as.integer(zCols), as.integer(length(zCols)), as.integer(r), gsub("\\\\", "/", as.character(tempdata.filename)), gsub("\\\\", "/", as.character(out.filename)), as.integer(min(sample.size,iter-k)), as.integer(1), PACKAGE="elrm");
+        	.C("MCMC", as.integer(yCol), as.integer(mCol), as.integer(wCols), as.integer(length(wCols)), as.integer(zCols), as.integer(length(zCols)), as.integer(r), as.character(tempdata.filename), as.character(out.filename), as.integer(min(sample.size,iter-k)), as.integer(1), PACKAGE="elrm");
         }
         else
         {
-        	.C("MCMC", as.integer(yCol), as.integer(mCol), as.integer(wCols), as.integer(length(wCols)), as.integer(zCols), as.integer(length(zCols)), as.integer(r), gsub("\\\\", "/", as.character(tempdata.filename)), gsub("\\\\", "/", as.character(out.filename)), as.integer(min(sample.size,iter-k)), as.integer(0), PACKAGE="elrm");
+        	.C("MCMC", as.integer(yCol), as.integer(mCol), as.integer(wCols), as.integer(length(wCols)), as.integer(zCols), as.integer(length(zCols)), as.integer(r), as.character(tempdata.filename), as.character(out.filename), as.integer(min(sample.size,iter-k)), as.integer(0), PACKAGE="elrm");
         }
 
         mc = matrix(scan(out.filename,what=numeric(),skip=0,n=min(sample.size,iter-k)*nrow(dataset),sep="\t",quiet=T),nrow=min(sample.size,iter-k),ncol=nrow(dataset),byrow=T);
